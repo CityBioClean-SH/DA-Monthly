@@ -382,35 +382,6 @@ textarea.field-input {
 .money-input:focus { box-shadow: none !important; }
 
 /* Autocomplete */
-.autocomplete-wrap { position: relative; }
-.autocomplete-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--bg-card);
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-  z-index: 50;
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-}
-.autocomplete-list.visible { display: block; }
-.autocomplete-item {
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  cursor: pointer;
-  transition: background 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.autocomplete-item:hover { background: var(--accent-light); }
-.autocomplete-item svg { flex-shrink: 0; color: var(--text-muted); }
 
 /* ══════════════════════════════════════
    TOGGLE SWITCHES
@@ -1447,10 +1418,7 @@ textarea.field-input {
       <div class="form-card">
         <div class="field-group full" style="margin-bottom:20px;">
           <div class="field-label">Church Name <span class="req">*</span></div>
-          <div class="autocomplete-wrap">
-            <input type="text" class="field-input" id="churchName" autocomplete="off" placeholder="e.g. First Assembly of God" required>
-            <div class="autocomplete-list" id="churchDropdown"></div>
-          </div>
+          <input type="text" class="field-input" id="churchName" autocomplete="off" placeholder="e.g. First Assembly of God" required>
           <div class="field-error">Church name is required</div>
         </div>
 
@@ -1889,9 +1857,6 @@ function getLastSubmission(churchName) {
   var h = getChurchHistory(churchName);
   return h.length > 0 ? h[h.length - 1] : null;
 }
-function getAllChurchNames() {
-  return Object.keys(getAllData());
-}
 
 // Shared escape function
 function escHtml(s) {
@@ -2106,20 +2071,14 @@ function updateCelebration() {
 }
 
 // ════════════════════════════════════════
-//  AUTOCOMPLETE
+//  CHURCH NAME — auto-fill from history (no dropdown)
 // ════════════════════════════════════════
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
     var input = document.getElementById('churchName');
-    var dropdown = document.getElementById('churchDropdown');
-
-    // Autocomplete disabled for demo — production will use server-side lookup
-    input.addEventListener('input', function() {
-      debouncedAutoFill();
-    });
 
     var debounceTimer;
-    function debouncedAutoFill() {
+    input.addEventListener('input', function() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(function() {
         var name = input.value.trim();
@@ -2128,7 +2087,7 @@ function updateCelebration() {
         updateLastMonthBadges(name);
         updateSparkline(name);
       }, 400);
-    }
+    });
 
     // Clear errors on input
     document.querySelectorAll('.field-input').forEach(function(inp) {
