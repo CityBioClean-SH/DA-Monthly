@@ -1397,9 +1397,9 @@ textarea.field-input {
      ════════════════════════════════════════ -->
 <div class="progress-bar-wrap" id="progressBarWrap">
   <div class="progress-inner">
-    <div class="progress-label" id="progressLabel">Step 1 of 7 &mdash; Church & Pastor</div>
+    <div class="progress-label" id="progressLabel">Page 1 of 2 &mdash; Church & Attendance</div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-pct" id="progressPct">14%</div>
+    <div class="progress-pct" id="progressPct">50%</div>
   </div>
 </div>
 
@@ -1411,8 +1411,8 @@ textarea.field-input {
 
     <!-- ── STEP 0: Church & Pastor ── -->
     <div class="wizard-step active" data-step="0">
-      <div class="section-label">Step 1</div>
-      <div class="section-title">Church & Pastor</div>
+      <div class="section-label">Church & Pastor</div>
+      <div class="section-title">Your church info</div>
       <div class="section-desc">Start typing to auto-fill from a previous report.</div>
 
       <div class="form-card">
@@ -1503,13 +1503,10 @@ textarea.field-input {
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ── STEP 1: Attendance & Spiritual Life ── -->
-    <div class="wizard-step" data-step="1">
-      <div class="section-label">Step 2</div>
-      <div class="section-title">Attendance & Spiritual Life</div>
-      <div class="section-desc">The heart of your report. Enter your numbers below.</div>
+      <div class="section-label" style="margin-top:32px;">Attendance & Spiritual Life</div>
+      <div class="section-title">The heart of your report</div>
+      <div class="section-desc">Enter your numbers below.</div>
 
       <div class="form-card">
         <div class="field">
@@ -1585,11 +1582,13 @@ textarea.field-input {
       </div>
     </div>
 
-    <!-- ── STEP 2: Financials ── -->
-    <div class="wizard-step" data-step="2">
-      <div class="section-label">Step 3</div>
-      <div class="section-title">Financials</div>
-      <div class="section-desc">Monthly financial snapshot for your church.</div>
+    <!-- ══════════════════════════════════════
+         PAGE 2: Financials + Ministry + Health + Connection + Review
+         ══════════════════════════════════════ -->
+    <div class="wizard-step" data-step="1">
+      <div class="section-label">Financials</div>
+      <div class="section-title">Monthly Snapshot</div>
+      <div class="section-desc">Income, expenses, and balances.</div>
 
       <div class="form-card">
         <div class="field-grid">
@@ -1627,12 +1626,9 @@ textarea.field-input {
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ── STEP 3: Ministry & Events ── -->
-    <div class="wizard-step" data-step="3">
-      <div class="section-label">Step 4</div>
-      <div class="section-title">Ministry & Events</div>
+      <div class="section-label" style="margin-top:32px;">Ministry & Events</div>
+      <div class="section-title">What's been happening</div>
       <div class="section-desc">Share what's been happening at your church.</div>
 
       <div class="form-card">
@@ -1646,12 +1642,9 @@ textarea.field-input {
           <textarea class="field-input" id="missionsPromo" placeholder="Missions offering, short-term trip planning, missionary visit, etc."></textarea>
         </div>
       </div>
-    </div>
 
-    <!-- ── STEP 4: Health Check ── -->
-    <div class="wizard-step" data-step="4">
-      <div class="section-label">Step 5</div>
-      <div class="section-title">Quick Health Check</div>
+      <div class="section-label" style="margin-top:32px;">Quick Health Check</div>
+      <div class="section-title">Compliance & Protection</div>
       <div class="section-desc">A few items to keep your church protected and compliant.</div>
 
       <div class="form-card">
@@ -1703,12 +1696,9 @@ textarea.field-input {
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ── STEP 5: Connection & Prayer ── -->
-    <div class="wizard-step" data-step="5">
-      <div class="section-label">Step 6</div>
-      <div class="section-title">Connection & Prayer</div>
+      <div class="section-label" style="margin-top:32px;">Connection & Prayer</div>
+      <div class="section-title">How can we support you?</div>
       <div class="section-desc">Let us know how we can support you.</div>
 
       <div class="form-card">
@@ -1738,12 +1728,9 @@ textarea.field-input {
           <textarea class="field-input" id="comments" placeholder="Share what's on your heart..."></textarea>
         </div>
       </div>
-    </div>
 
-    <!-- ── STEP 6: Review & Submit ── -->
-    <div class="wizard-step" data-step="6">
-      <div class="section-label">Step 7</div>
-      <div class="section-title">Review & Submit</div>
+      <div class="section-label" style="margin-top:32px;">Review & Submit</div>
+      <div class="section-title">Almost done!</div>
       <div class="section-desc">Everything looks good? Hit submit below.</div>
 
       <div class="form-card">
@@ -1764,7 +1751,7 @@ textarea.field-input {
       Back
     </button>
     <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
-      Next Step
+      Next Page
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
@@ -1877,15 +1864,10 @@ function showToast(msg) {
 //  WIZARD NAVIGATION
 // ════════════════════════════════════════
 var currentStep = 0;
-var TOTAL_STEPS = 7;
+var TOTAL_STEPS = 2;
 var stepNames = [
-  'Church & Pastor',
-  'Attendance & Spiritual Life',
-  'Financials',
-  'Ministry & Events',
-  'Health Check',
-  'Connection & Prayer',
-  'Review & Submit'
+  'Church & Attendance',
+  'Details & Submit'
 ];
 
 function updateProgressBar() {
@@ -1893,7 +1875,7 @@ function updateProgressBar() {
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressPct').textContent = pct + '%';
   document.getElementById('progressLabel').innerHTML =
-    'Step ' + (currentStep + 1) + ' of ' + TOTAL_STEPS + ' &mdash; ' + stepNames[currentStep];
+    'Page ' + (currentStep + 1) + ' of ' + TOTAL_STEPS + ' &mdash; ' + stepNames[currentStep];
 }
 
 function goToStep(step, direction) {
@@ -1915,15 +1897,13 @@ function goToStep(step, direction) {
 
   updateStepUI();
 
-  // Build review if landing on review step
-  if (currentStep === 6) buildReview();
+  // Build review if landing on page 2
+  if (currentStep === 1) buildReview();
 }
 
 function nextStep() {
   if (currentStep === 0) {
     if (!validateStep0()) return;
-  }
-  if (currentStep === 1) {
     if (!validateSpiritualLife()) return;
   }
   if (currentStep === TOTAL_STEPS - 1) {
@@ -1971,11 +1951,11 @@ function updateStepUI() {
     nextBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Submit Report';
   } else {
     nextBtn.className = 'btn btn-primary';
-    nextBtn.innerHTML = 'Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+    nextBtn.innerHTML = 'Next Page <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
   }
 
-  // Update celebration card when on step 1
-  if (currentStep === 1) updateCelebration();
+  // Update celebration card when on page 1
+  if (currentStep === 0) updateCelebration();
 }
 
 function validateStep0() {
@@ -2277,6 +2257,7 @@ function buildReview() {
   // Church & Pastor
   html += '<div class="review-section">';
   html += '<div class="review-section-header"><span class="review-section-title">Church & Pastor</span><button class="review-edit-btn" onclick="goToStep(0)">Edit</button></div>';
+
   html += '<div class="review-grid">';
   html += reviewItem('Church', e.churchName);
   html += reviewItem('Pastor', e.pastorFirst + ' ' + e.pastorLast);
@@ -2291,7 +2272,7 @@ function buildReview() {
 
   // Attendance & Spiritual
   html += '<div class="review-section">';
-  html += '<div class="review-section-header"><span class="review-section-title">Attendance & Spiritual Life</span><button class="review-edit-btn" onclick="goToStep(1)">Edit</button></div>';
+  html += '<div class="review-section-header"><span class="review-section-title">Attendance & Spiritual Life</span><button class="review-edit-btn" onclick="goToStep(0)">Edit</button></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Adults', e.attendAdults);
   html += reviewItem('Under 18', e.attendMinors);
@@ -2314,7 +2295,7 @@ function buildReview() {
 
   // Financials
   html += '<div class="review-section">';
-  html += '<div class="review-section-header"><span class="review-section-title">Financials</span><button class="review-edit-btn" onclick="goToStep(2)">Edit</button></div>';
+  html += '<div class="review-section-header"><span class="review-section-title">Financials</span></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Total Income', '$' + formatNum(e.totalIncome));
   html += reviewItem('Total Expenses', '$' + formatNum(e.totalExpenses));
@@ -2326,7 +2307,7 @@ function buildReview() {
 
   // Ministry
   html += '<div class="review-section">';
-  html += '<div class="review-section-header"><span class="review-section-title">Ministry & Events</span><button class="review-edit-btn" onclick="goToStep(3)">Edit</button></div>';
+  html += '<div class="review-section-header"><span class="review-section-title">Ministry & Events</span></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Events', e.specialEvents || '(none)', true);
   html += reviewItem('Missions', e.missionsPromo || '(none)', true);
@@ -2336,7 +2317,7 @@ function buildReview() {
 
   // Health
   html += '<div class="review-section">';
-  html += '<div class="review-section-header"><span class="review-section-title">Health Check</span><button class="review-edit-btn" onclick="goToStep(4)">Edit</button></div>';
+  html += '<div class="review-section-header"><span class="review-section-title">Health Check</span></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Ministry Safe', e.ministrySafe || 'Not answered');
   html += reviewItem('Aplos', e.aplos || 'Not answered');
@@ -2347,7 +2328,7 @@ function buildReview() {
 
   // Connection
   html += '<div class="review-section">';
-  html += '<div class="review-section-header"><span class="review-section-title">Connection & Prayer</span><button class="review-edit-btn" onclick="goToStep(5)">Edit</button></div>';
+  html += '<div class="review-section-header"><span class="review-section-title">Connection & Prayer</span></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Section', e.sectionConnection || 'Not answered');
   html += reviewItem('Call Requested', e.presbyCall || 'Not answered');
