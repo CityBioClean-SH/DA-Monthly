@@ -70,7 +70,7 @@ body {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
-.header-inner { max-width: 520px; margin: 0 auto; }
+.header-inner { max-width: 800px; margin: 0 auto; }
 .header-top {
   display: flex;
   align-items: center;
@@ -200,9 +200,9 @@ body {
 
 /* ── MAIN CONTAINER ── */
 .main-wrap {
-  max-width: 520px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px 16px 100px;
+  padding: 20px 24px 100px;
   position: relative;
 }
 
@@ -679,7 +679,7 @@ textarea.field-input {
   transform: translateZ(0);
 }
 .nav-inner {
-  max-width: 520px;
+  max-width: 800px;
   margin: 0 auto;
   display: flex;
   gap: 10px;
@@ -1073,6 +1073,20 @@ textarea.field-input {
   padding-right: 40px;
 }
 
+/* ── DESKTOP ── */
+@media (min-width: 768px) {
+  .step-card { padding: 40px 48px; }
+  .step-title { font-size: 28px; }
+  .step-subtitle { font-size: 15px; }
+  .field-label { font-size: 14px; }
+  .field-input, .field-select, .field-textarea { font-size: 16px; padding: 14px 18px; }
+  .review-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .nav-btn { padding: 16px 32px; font-size: 16px; }
+  .bottom-nav { padding: 16px 24px; }
+  .progress-steps { gap: 6px; }
+}
+
 /* Mobile adjustments */
 @media (max-width: 480px) {
   .app-header { padding: 12px 14px 12px; }
@@ -1116,6 +1130,7 @@ textarea.field-input {
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('form')">New Report</button>
       <button class="tab-btn" onclick="switchTab('history')">History</button>
+      <a href="DA_Admin_Dashboard.html" class="tab-btn" style="text-decoration:none; color:inherit;">Admin Dashboard</a>
     </div>
 
     <div id="stepProgressWrap">
