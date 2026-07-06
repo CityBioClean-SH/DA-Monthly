@@ -1131,6 +1131,11 @@ textarea.field-input {
   transition: all 0.15s;
 }
 .admin-status-item:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.admin-status-item.non-compliant { border-color: var(--danger); background: var(--danger-light); }
+.admin-status-item.non-compliant:hover { border-color: #991b1b; box-shadow: 0 2px 8px rgba(220,38,38,0.15); }
+.admin-compliance-warning { font-size: 11px; font-weight: 600; color: var(--danger); margin-top: 2px; }
+tr.non-compliant td { background: var(--danger-light); }
+tr.non-compliant td:first-child { color: var(--danger); }
 .admin-status-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -3028,11 +3033,25 @@ function admin_renderDashboard() {
 
   // Build status items HTML
   var statusHtml = statusItems.map(function(s) {
-    return '<div class="admin-status-item">'
+    // Check compliance from last entry
+    var issues = [];
+    if (s.lastEntry) {
+      if (s.lastEntry.ministrySafe === 'No') issues.push('Ministry Safe');
+      if (s.lastEntry.aplos === 'No') issues.push('Aplos');
+      var ins = Array.isArray(s.lastEntry.insurance) ? s.lastEntry.insurance : [];
+      if (ins.length && ins.indexOf('None') < 0) issues.push('Insurance: ' + ins.join(', '));
+    }
+    var isNonCompliant = issues.length > 0;
+    var tooltipText = isNonCompliant ? 'Non-compliant: ' + issues.join(', ') : '';
+    return '<div class="admin-status-item' + (isNonCompliant ? ' non-compliant' : '') + '"'
+      + (isNonCompliant ? ' title="' + escHtml(tooltipText) + '"' : '')
+      + ' ondblclick="admin_openChurchDetail(\'' + escHtml(s.name).replace(/'/g, "\\'") + '\')"'
+      + ' style="cursor:pointer;">'
       + '<span class="admin-status-badge ' + s.status + '">' + s.statusLabel + '</span>'
       + '<div class="admin-status-info">'
       + '<div class="admin-status-church">' + escHtml(s.name) + '</div>'
       + '<div class="admin-status-pastor">' + escHtml(s.pastorName) + ' &middot; Last: ' + s.lastDate + '</div>'
+      + (isNonCompliant ? '<div class="admin-compliance-warning">&#9888; ' + escHtml(issues.join(', ')) + '</div>' : '')
       + '</div>'
       + '<div class="admin-status-stats">'
       + '<div class="att">' + s.lastAtt + '</div>'
@@ -3042,7 +3061,9 @@ function admin_renderDashboard() {
 
   // Build compliance rows HTML
   var complianceHtml = complianceRows.map(function(r) {
-    return '<tr>'
+    var hasIssue = r.ministrySafe === 'No' || r.aplos === 'No'
+      || (r.insurance.length > 0 && r.insurance.indexOf('None') < 0);
+    return '<tr' + (hasIssue ? ' class="non-compliant"' : '') + '>'
       + '<td style="font-weight:700;">' + escHtml(r.name) + '</td>'
       + '<td style="text-align:center;">' + complianceIcon(r.ministrySafe, 'Yes') + '</td>'
       + '<td style="text-align:center;">' + complianceIcon(r.aplos, 'Yes') + '</td>'
@@ -3293,6 +3314,13 @@ function admin_buildComparisonChart(data) {
 // ════════════════════════════════════════
 //  ADMIN — INDIVIDUAL CHURCH DETAIL
 // ════════════════════════════════════════
+function admin_openChurchDetail(name) {
+  var sel = document.getElementById('adminDetailChurchSelect');
+  sel.value = name;
+  admin_renderDetail();
+  sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function admin_renderDetail() {
   var sel = document.getElementById('adminDetailChurchSelect');
   var container = document.getElementById('adminDetailContent');
