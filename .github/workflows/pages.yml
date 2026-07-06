@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare site
+        run: |
+          mkdir _site
+          cp DA_Monthly_Report.html _site/
+          cp DA_Admin_Dashboard.html _site/
+          cat > _site/index.html << 'HTML'
+          <!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=DA_Monthly_Report.html"></head><body></body></html>
+          HTML
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+      - id: deployment
+        uses: actions/deploy-pages@v4
