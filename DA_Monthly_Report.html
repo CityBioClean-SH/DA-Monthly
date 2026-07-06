@@ -2113,47 +2113,10 @@ function updateCelebration() {
     var input = document.getElementById('churchName');
     var dropdown = document.getElementById('churchDropdown');
 
-    input.addEventListener('focus', showSuggestions);
+    // Autocomplete disabled for demo — production will use server-side lookup
     input.addEventListener('input', function() {
-      showSuggestions();
       debouncedAutoFill();
     });
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.autocomplete-wrap')) {
-        dropdown.classList.remove('visible');
-      }
-    });
-
-    function showSuggestions() {
-      var names = getAllChurchNames();
-      var val = input.value.trim().toLowerCase();
-      var filtered = val ? names.filter(function(n) { return n.toLowerCase().indexOf(val) >= 0; }) : names;
-
-      if (filtered.length === 0) {
-        dropdown.classList.remove('visible');
-        return;
-      }
-
-      dropdown.innerHTML = filtered.map(function(name) {
-        return '<div class="autocomplete-item" data-name="' + name.replace(/"/g, '&quot;') + '">'
-          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l9-7 9 7v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>'
-          + name + '</div>';
-      }).join('');
-
-      dropdown.classList.add('visible');
-
-      dropdown.querySelectorAll('.autocomplete-item').forEach(function(item) {
-        item.addEventListener('click', function() {
-          input.value = this.dataset.name;
-          dropdown.classList.remove('visible');
-          var last = getLastSubmission(input.value.trim());
-          if (last) autoFill(last);
-          updateLastMonthBadges(input.value.trim());
-          updateSparkline(input.value.trim());
-        });
-      });
-    }
 
     var debounceTimer;
     function debouncedAutoFill() {
