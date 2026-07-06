@@ -2813,6 +2813,7 @@ function admin_populateMonthFilter() {
 // Chart instances for admin
 var admin_attendTrendChart = null;
 var admin_salvBaptChart = null;
+var admin_financeTrendChart = null;
 var admin_comparisonChart = null;
 var admin_detailLineChart = null;
 
@@ -2870,6 +2871,23 @@ function admin_renderDashboard() {
     });
   });
 
+  var totalIncomeCurrent = 0, totalExpensesCurrent = 0;
+  var totalIncomePrev = 0, totalExpensesPrev = 0;
+
+  churchStats.forEach(function(c) {
+    if (c.latest) {
+      totalIncomeCurrent += (parseFloat(c.latest.totalIncome) || 0);
+      totalExpensesCurrent += (parseFloat(c.latest.totalExpenses) || 0);
+    }
+    if (c.prevLatest) {
+      totalIncomePrev += (parseFloat(c.prevLatest.totalIncome) || 0);
+      totalExpensesPrev += (parseFloat(c.prevLatest.totalExpenses) || 0);
+    }
+  });
+
+  var netCurrent = totalIncomeCurrent - totalExpensesCurrent;
+  var incomeDelta = totalIncomeCurrent - totalIncomePrev;
+
   var attDelta = totalAttCurrent - totalAttPrev;
   var reportDelta = reportingCount - prevReportingCount;
 
@@ -2915,6 +2933,24 @@ function admin_renderDashboard() {
       allData[ch].filter(function(e) { return admin_entryYM(e) === m; }).forEach(function(e) {
         total += (e.waterBaptisms || 0) + (e.spiritBaptisms || 0);
       });
+    });
+    return total;
+  });
+
+  // Income & expenses trend
+  var incomeTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      var match = allData[ch].filter(function(e) { return admin_entryYM(e) === m; });
+      if (match.length) { total += (parseFloat(match[match.length - 1].totalIncome) || 0); }
+    });
+    return total;
+  });
+  var expenseTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      var match = allData[ch].filter(function(e) { return admin_entryYM(e) === m; });
+      if (match.length) { total += (parseFloat(match[match.length - 1].totalExpenses) || 0); }
     });
     return total;
   });
@@ -3017,6 +3053,9 @@ function admin_renderDashboard() {
   var attDeltaClass = attDelta > 0 ? 'admin-delta-up' : attDelta < 0 ? 'admin-delta-down' : 'admin-delta-neutral';
   var attDeltaPrefix = attDelta > 0 ? '&#9650; +' : attDelta < 0 ? '&#9660; ' : '';
   var reportDeltaPrefix = reportDelta > 0 ? '+' : '';
+  var incomeDeltaClass = incomeDelta > 0 ? 'admin-delta-up' : incomeDelta < 0 ? 'admin-delta-down' : 'admin-delta-neutral';
+  var incomeDeltaPrefix = incomeDelta > 0 ? '&#9650; +$' : incomeDelta < 0 ? '&#9660; -$' : '$';
+  var netClass = netCurrent >= 0 ? 'admin-delta-up' : 'admin-delta-down';
 
   var monthFilterLabel = ym === 'all' ? 'All Time' : document.getElementById('adminMonthFilter').selectedOptions[0].textContent;
 
@@ -3042,6 +3081,16 @@ function admin_renderDashboard() {
     + '<div class="label">Total Baptisms</div>'
     + '<div class="value">' + (totalWaterCurrent + totalSpiritCurrent) + '</div>'
     + '<div class="delta admin-delta-neutral">' + totalWaterCurrent + ' water + ' + totalSpiritCurrent + ' spirit</div>'
+    + '</div>'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Combined Giving</div>'
+    + '<div class="value">$' + totalIncomeCurrent.toLocaleString() + '</div>'
+    + '<div class="delta ' + incomeDeltaClass + '">' + incomeDeltaPrefix + Math.abs(incomeDelta).toLocaleString() + ' vs last month</div>'
+    + '</div>'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Combined Expenses</div>'
+    + '<div class="value">$' + totalExpensesCurrent.toLocaleString() + '</div>'
+    + '<div class="delta ' + netClass + '">Net: ' + (netCurrent >= 0 ? '+' : '-') + '$' + Math.abs(netCurrent).toLocaleString() + '</div>'
     + '</div></div>'
     + '<!-- Row 2: Reporting Status -->'
     + '<div class="admin-section-header">Reporting Status <span class="badge">' + monthFilterLabel + '</span></div>'
@@ -3050,6 +3099,11 @@ function admin_renderDashboard() {
     + '<div class="admin-chart-row">'
     + '<div class="admin-chart-card"><div class="admin-chart-title">Attendance Trend (Section Total)</div><canvas id="adminAttendTrendCanvas" height="260"></canvas></div>'
     + '<div class="admin-chart-card"><div class="admin-chart-title">Salvations &amp; Baptisms</div><canvas id="adminSalvBaptCanvas" height="260"></canvas></div>'
+    + '</div>'
+    + '<!-- Row 3b: Financial Trend -->'
+    + '<div class="admin-section-header">Financial Overview</div>'
+    + '<div class="admin-chart-row">'
+    + '<div class="admin-chart-card"><div class="admin-chart-title">Income vs Expenses (Section Total)</div><canvas id="adminFinanceTrendCanvas" height="260"></canvas></div>'
     + '</div>'
     + '<!-- Row 4: Church Comparison -->'
     + '<div class="admin-section-header">Church Comparison</div>'
@@ -3070,6 +3124,7 @@ function admin_renderDashboard() {
   // Build Charts
   admin_buildAttendanceTrendChart(monthLabels, attTrendData);
   admin_buildSalvBaptChart(monthLabels, salvTrendData, baptTrendData);
+  admin_buildFinanceTrendChart(monthLabels, incomeTrendData, expenseTrendData);
   admin_buildComparisonChart(compData);
 }
 
@@ -3142,6 +3197,45 @@ function admin_buildSalvBaptChart(labels, salvData, baptData) {
       scales: {
         x: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '600' }, color: '#4b5563' } },
         y: { stacked: true, grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af', stepSize: 5 }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function admin_buildFinanceTrendChart(labels, incomeData, expenseData) {
+  if (admin_financeTrendChart) admin_financeTrendChart.destroy();
+  var ctx = document.getElementById('adminFinanceTrendCanvas');
+  if (!ctx) return;
+  admin_financeTrendChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Income',
+          data: incomeData,
+          backgroundColor: 'rgba(22,163,74,0.8)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        },
+        {
+          label: 'Expenses',
+          data: expenseData,
+          backgroundColor: 'rgba(220,38,38,0.6)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter', weight: '600' }, usePointStyle: true, pointStyleWidth: 10, padding: 20 } },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString(); } } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '600' }, color: '#4b5563' } },
+        y: { grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af', callback: function(v) { return '$' + v.toLocaleString(); } }, beginAtZero: true }
       }
     }
   });
@@ -3222,6 +3316,9 @@ function admin_renderDetail() {
     var d = new Date(e.timestamp);
     var dateStr = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     var total = (e.attendAdults || 0) + (e.attendMinors || 0);
+    var inc = parseFloat(e.totalIncome) || 0;
+    var exp = parseFloat(e.totalExpenses) || 0;
+    var chk = parseFloat(e.checkingBalance) || 0;
     return '<tr>'
       + '<td>' + dateStr + '</td>'
       + '<td>' + (e.attendAdults || 0) + '</td>'
@@ -3231,7 +3328,9 @@ function admin_renderDetail() {
       + '<td>' + (e.salvations || 0) + '</td>'
       + '<td>' + (e.waterBaptisms || 0) + '</td>'
       + '<td>' + (e.spiritBaptisms || 0) + '</td>'
-      + '<td>' + (e.communionCount || 0) + '</td>'
+      + '<td>$' + inc.toLocaleString() + '</td>'
+      + '<td>$' + exp.toLocaleString() + '</td>'
+      + '<td>$' + chk.toLocaleString() + '</td>'
       + '</tr>';
   }).join('');
 
@@ -3247,7 +3346,7 @@ function admin_renderDetail() {
     + '<div style="overflow-x:auto;">'
     + '<table class="admin-detail-table"><thead><tr>'
     + '<th>Date</th><th>Adults</th><th>Under 18</th><th>Midweek</th><th>Total</th>'
-    + '<th>Salvations</th><th>Water Bapt.</th><th>Spirit Bapt.</th><th>Communion</th>'
+    + '<th>Salvations</th><th>Water Bapt.</th><th>Spirit Bapt.</th><th>Income</th><th>Expenses</th><th>Checking</th>'
     + '</tr></thead><tbody>' + detailRowsHtml + '</tbody></table></div>'
     + '<div style="margin-top:20px;">'
     + '<div class="admin-chart-title">Attendance Trend &mdash; ' + escHtml(name) + '</div>'
@@ -3313,9 +3412,9 @@ function admin_loadDemoData() {
       city: 'Mesquite',
       pastor: { first: 'David', last: 'Miller', email: 'dmiller@newlifeag.org', phone: '(972) 555-0101' },
       months: [
-        { att: [85, 25], mid: 35, salv: 3, wb: 1, sb: 0, comm: 4 },
-        { att: [95, 30], mid: 40, salv: 5, wb: 2, sb: 1, comm: 4 },
-        { att: [90, 28], mid: 38, salv: 2, wb: 0, sb: 0, comm: 5 }
+        { att: [85, 25], mid: 35, salv: 3, wb: 1, sb: 0, comm: 4, inc: 18500, exp: 16200, chk: 12400, sav: 8500 },
+        { att: [95, 30], mid: 40, salv: 5, wb: 2, sb: 1, comm: 4, inc: 21200, exp: 17800, chk: 15800, sav: 8500 },
+        { att: [90, 28], mid: 38, salv: 2, wb: 0, sb: 0, comm: 5, inc: 19800, exp: 17100, chk: 18500, sav: 9000 }
       ],
       ms: 'Yes', aplos: 'Yes', ins: ['None']
     },
@@ -3324,9 +3423,9 @@ function admin_loadDemoData() {
       city: 'Balch Springs',
       pastor: { first: 'Maria', last: 'Santos', email: 'msantos@gracecommunity.org', phone: '(214) 555-0202' },
       months: [
-        { att: [45, 15], mid: 18, salv: 1, wb: 0, sb: 0, comm: 4 },
-        { att: [42, 12], mid: 16, salv: 0, wb: 0, sb: 0, comm: 4 },
-        { att: [50, 18], mid: 22, salv: 2, wb: 1, sb: 0, comm: 5 }
+        { att: [45, 15], mid: 18, salv: 1, wb: 0, sb: 0, comm: 4, inc: 8200, exp: 9100, chk: 3400, sav: 2100 },
+        { att: [42, 12], mid: 16, salv: 0, wb: 0, sb: 0, comm: 4, inc: 7600, exp: 8800, chk: 2200, sav: 2100 },
+        { att: [50, 18], mid: 22, salv: 2, wb: 1, sb: 0, comm: 5, inc: 9400, exp: 8500, chk: 3100, sav: 2100 }
       ],
       ms: 'Yes', aplos: 'No', ins: ['None']
     },
@@ -3335,9 +3434,9 @@ function admin_loadDemoData() {
       city: 'Sunnyvale',
       pastor: { first: 'James', last: 'Wright', email: 'jwright@crosspointfellowship.org', phone: '(469) 555-0303' },
       months: [
-        { att: [120, 40], mid: 55, salv: 8, wb: 3, sb: 2, comm: 4 },
-        { att: [125, 45], mid: 60, salv: 6, wb: 2, sb: 1, comm: 4 },
-        { att: [130, 42], mid: 58, salv: 10, wb: 4, sb: 3, comm: 5 }
+        { att: [120, 40], mid: 55, salv: 8, wb: 3, sb: 2, comm: 4, inc: 32500, exp: 28900, chk: 24600, sav: 15000 },
+        { att: [125, 45], mid: 60, salv: 6, wb: 2, sb: 1, comm: 4, inc: 35100, exp: 30200, chk: 29500, sav: 15000 },
+        { att: [130, 42], mid: 58, salv: 10, wb: 4, sb: 3, comm: 5, inc: 38200, exp: 31800, chk: 35900, sav: 16500 }
       ],
       ms: 'Yes', aplos: 'Yes', ins: ['None']
     },
@@ -3346,9 +3445,9 @@ function admin_loadDemoData() {
       city: 'Seagoville',
       pastor: { first: 'Robert', last: 'Chen', email: 'rchen@faithassembly.org', phone: '(972) 555-0404' },
       months: [
-        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
-        { att: [28, 10], mid: 10, salv: 1, wb: 0, sb: 0, comm: 3 },
-        { att: [25, 7], mid: 9, salv: 0, wb: 0, sb: 0, comm: 2 }
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2, inc: 4200, exp: 5800, chk: 1800, sav: 500 },
+        { att: [28, 10], mid: 10, salv: 1, wb: 0, sb: 0, comm: 3, inc: 3800, exp: 5500, chk: 100, sav: 500 },
+        { att: [25, 7], mid: 9, salv: 0, wb: 0, sb: 0, comm: 2, inc: 3500, exp: 5200, chk: -1600, sav: 0 }
       ],
       ms: 'No', aplos: "Don't know", ins: ['Payment Difficulty']
     },
@@ -3357,9 +3456,9 @@ function admin_loadDemoData() {
       city: 'Forney',
       pastor: { first: 'Sarah', last: 'Johnson', email: 'sjohnson@livingwater.church', phone: '(469) 555-0505' },
       months: [
-        { att: [200, 65], mid: 95, salv: 12, wb: 5, sb: 4, comm: 4 },
-        { att: [210, 70], mid: 100, salv: 15, wb: 6, sb: 3, comm: 5 },
-        { att: [195, 60], mid: 88, salv: 8, wb: 3, sb: 2, comm: 4 }
+        { att: [200, 65], mid: 95, salv: 12, wb: 5, sb: 4, comm: 4, inc: 52000, exp: 44800, chk: 38200, sav: 25000 },
+        { att: [210, 70], mid: 100, salv: 15, wb: 6, sb: 3, comm: 5, inc: 58500, exp: 47200, chk: 49500, sav: 25000 },
+        { att: [195, 60], mid: 88, salv: 8, wb: 3, sb: 2, comm: 4, inc: 48200, exp: 45600, chk: 52100, sav: 27500 }
       ],
       ms: 'Yes', aplos: 'Yes', ins: ['None']
     },
@@ -3368,9 +3467,9 @@ function admin_loadDemoData() {
       city: 'Mesquite',
       pastor: { first: 'Carlos', last: 'Reyes', email: 'creyes@primeraiglesiaag.org', phone: '(214) 555-0606' },
       months: [
-        { att: [70, 30], mid: 32, salv: 4, wb: 2, sb: 1, comm: 4 },
-        { att: [75, 35], mid: 38, salv: 3, wb: 1, sb: 0, comm: 4 },
-        { att: [72, 32], mid: 35, salv: 5, wb: 2, sb: 1, comm: 5 }
+        { att: [70, 30], mid: 32, salv: 4, wb: 2, sb: 1, comm: 4, inc: 14200, exp: 12800, chk: 9600, sav: 5000 },
+        { att: [75, 35], mid: 38, salv: 3, wb: 1, sb: 0, comm: 4, inc: 15800, exp: 13500, chk: 11900, sav: 5000 },
+        { att: [72, 32], mid: 35, salv: 5, wb: 2, sb: 1, comm: 5, inc: 15100, exp: 13200, chk: 13800, sav: 5500 }
       ],
       ms: 'Yes', aplos: 'Yes', ins: ['None']
     },
@@ -3379,9 +3478,9 @@ function admin_loadDemoData() {
       city: 'Kaufman',
       pastor: { first: 'Tim', last: 'Anderson', email: 'tanderson@hopechapel.org', phone: '(972) 555-0707' },
       months: [
-        { att: [35, 10], mid: 15, salv: 1, wb: 0, sb: 0, comm: 3 },
-        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
-        { att: [32, 12], mid: 14, salv: 1, wb: 1, sb: 0, comm: 3 }
+        { att: [35, 10], mid: 15, salv: 1, wb: 0, sb: 0, comm: 3, inc: 5800, exp: 6200, chk: 2400, sav: 1200 },
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2, inc: 5200, exp: 6500, chk: 1100, sav: 1200 },
+        { att: [32, 12], mid: 14, salv: 1, wb: 1, sb: 0, comm: 3, inc: 6100, exp: 6000, chk: 1200, sav: 1200 }
       ],
       ms: "Don't know", aplos: 'No', ins: ['Outstanding Bill']
     },
@@ -3390,9 +3489,9 @@ function admin_loadDemoData() {
       city: 'Terrell',
       pastor: { first: 'Anthony', last: 'Brooks', email: 'abrooks@restorationchurch.org', phone: '(469) 555-0808' },
       months: [
-        { att: [55, 20], mid: 25, salv: 2, wb: 1, sb: 0, comm: 4 },
-        { att: [60, 22], mid: 28, salv: 3, wb: 1, sb: 1, comm: 4 },
-        { att: [58, 18], mid: 24, salv: 2, wb: 0, sb: 0, comm: 4 }
+        { att: [55, 20], mid: 25, salv: 2, wb: 1, sb: 0, comm: 4, inc: 12800, exp: 11400, chk: 8200, sav: 4000 },
+        { att: [60, 22], mid: 28, salv: 3, wb: 1, sb: 1, comm: 4, inc: 14200, exp: 12100, chk: 10300, sav: 4000 },
+        { att: [58, 18], mid: 24, salv: 2, wb: 0, sb: 0, comm: 4, inc: 13500, exp: 11900, chk: 11900, sav: 4500 }
       ],
       ms: 'Yes', aplos: 'Yes', ins: ['None']
     }
@@ -3422,6 +3521,10 @@ function admin_loadDemoData() {
         waterBaptisms: m.wb,
         spiritBaptisms: m.sb,
         communionCount: m.comm,
+        totalIncome: m.inc || 0,
+        totalExpenses: m.exp || 0,
+        checkingBalance: m.chk || 0,
+        savingsBalance: m.sav || 0,
         specialEvents: '',
         missionsPromo: '',
         ministrySafe: church.ms,
@@ -3449,7 +3552,7 @@ function admin_exportAllCSV() {
   var churches = Object.keys(allData);
   if (!churches.length) { showToast('No data to export'); return; }
 
-  var headers = ['Date','Church','Pastor','Adults','Under 18','Total','Midweek','Salvations','Water Baptisms','Spirit Baptisms','Communion','Ministry Safe','Aplos','Insurance','Comments'];
+  var headers = ['Date','Church','Pastor','Adults','Under 18','Total','Midweek','Salvations','Water Baptisms','Spirit Baptisms','Communion','Income','Expenses','Checking','Savings','Ministry Safe','Aplos','Insurance','Comments'];
   var rows = [];
   churches.sort().forEach(function(ch) {
     allData[ch].forEach(function(e) {
@@ -3466,6 +3569,10 @@ function admin_exportAllCSV() {
         e.waterBaptisms || 0,
         e.spiritBaptisms || 0,
         e.communionCount || 0,
+        parseFloat(e.totalIncome) || 0,
+        parseFloat(e.totalExpenses) || 0,
+        parseFloat(e.checkingBalance) || 0,
+        parseFloat(e.savingsBalance) || 0,
         '"' + (e.ministrySafe || '') + '"',
         '"' + (e.aplos || '') + '"',
         '"' + (Array.isArray(e.insurance) ? e.insurance.join('; ') : '') + '"',
