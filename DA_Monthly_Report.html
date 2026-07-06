@@ -3406,16 +3406,47 @@ function admin_ensureModal() {
   overlay.id = 'churchModal';
   overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.7);overflow-y:auto;padding:40px 20px;';
   overlay.onclick = function(e) { if (e.target === overlay) admin_closeModal(); };
-  overlay.innerHTML = '<div style="background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:1000px;margin:0 auto;overflow:hidden;">'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:2px solid #d1d5dc;background:#fff;">'
-    + '<div id="churchModalTitle" style="font-size:18px;font-weight:800;">Church Detail</div>'
-    + '<div style="display:flex;align-items:center;gap:8px;">'
-    + '<button onclick="admin_modalPrev()" style="padding:6px 14px;border:2px solid #d1d5dc;border-radius:6px;background:#fff;font-size:13px;font-weight:600;color:#4b5563;cursor:pointer;">&#9664; Prev</button>'
-    + '<button onclick="admin_modalNext()" style="padding:6px 14px;border:2px solid #d1d5dc;border-radius:6px;background:#fff;font-size:13px;font-weight:600;color:#4b5563;cursor:pointer;">Next &#9654;</button>'
-    + '<button onclick="admin_closeModal()" style="width:36px;height:36px;border:none;background:none;font-size:22px;color:#9ca3af;cursor:pointer;border-radius:6px;margin-left:12px;">&#215;</button>'
-    + '</div></div>'
-    + '<div id="churchModalBody" style="padding:24px;"></div>'
-    + '</div>';
+
+  var card = document.createElement('div');
+  card.style.cssText = 'background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:1000px;margin:0 auto;overflow:hidden;';
+
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:2px solid #d1d5dc;background:#fff;';
+
+  var title = document.createElement('div');
+  title.id = 'churchModalTitle';
+  title.style.cssText = 'font-size:18px;font-weight:800;';
+  title.textContent = 'Church Detail';
+
+  var nav = document.createElement('div');
+  nav.style.cssText = 'display:flex;align-items:center;gap:8px;';
+  var btnStyle = 'padding:6px 14px;border:2px solid #d1d5dc;border-radius:6px;background:#fff;font-size:13px;font-weight:600;color:#4b5563;cursor:pointer;';
+  var prevBtn = document.createElement('button');
+  prevBtn.innerHTML = '&#9664; Prev';
+  prevBtn.style.cssText = btnStyle;
+  prevBtn.onclick = function() { admin_modalPrev(); };
+  var nextBtn = document.createElement('button');
+  nextBtn.innerHTML = 'Next &#9654;';
+  nextBtn.style.cssText = btnStyle;
+  nextBtn.onclick = function() { admin_modalNext(); };
+  var closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '&#215;';
+  closeBtn.style.cssText = 'width:36px;height:36px;border:none;background:none;font-size:22px;color:#9ca3af;cursor:pointer;border-radius:6px;margin-left:12px;';
+  closeBtn.onclick = function() { admin_closeModal(); };
+  nav.appendChild(prevBtn);
+  nav.appendChild(nextBtn);
+  nav.appendChild(closeBtn);
+
+  header.appendChild(title);
+  header.appendChild(nav);
+
+  var body = document.createElement('div');
+  body.id = 'churchModalBody';
+  body.style.cssText = 'padding:24px;';
+
+  card.appendChild(header);
+  card.appendChild(body);
+  overlay.appendChild(card);
   document.body.appendChild(overlay);
 }
 
