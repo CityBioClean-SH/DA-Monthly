@@ -1137,84 +1137,6 @@ textarea.field-input {
 tr.non-compliant td { background: var(--danger-light); }
 tr.non-compliant td:first-child { color: var(--danger); }
 
-/* Church Detail Modal */
-.church-modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 10000;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px 20px;
-  overflow-y: auto;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-.church-modal-overlay.visible { display: flex; }
-.church-modal {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  width: 100%;
-  max-width: 1000px;
-  max-height: calc(100vh - 80px);
-  overflow-y: auto;
-  position: relative;
-  z-index: 10001;
-}
-.church-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 2px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: var(--bg-card);
-  z-index: 1;
-  border-radius: 12px 12px 0 0;
-}
-.church-modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text);
-}
-.church-modal-nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.church-modal-nav button {
-  padding: 6px 14px;
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg-card);
-  font-family: var(--font);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.church-modal-nav button:hover { border-color: var(--accent); color: var(--accent); }
-.church-modal-close {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: none;
-  font-size: 22px;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  margin-left: 12px;
-}
-.church-modal-close:hover { background: var(--danger-light); color: var(--danger); }
-.church-modal-body { padding: 24px; }
 .admin-status-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -3401,7 +3323,8 @@ function admin_openChurchDetail(name) {
 }
 
 function admin_ensureModal() {
-  if (document.getElementById('churchModal')) return;
+  var existing = document.getElementById('churchModal');
+  if (existing) existing.remove();
   var overlay = document.createElement('div');
   overlay.id = 'churchModal';
   overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.7);overflow-y:auto;padding:40px 20px;';
