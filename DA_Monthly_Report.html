@@ -1007,6 +1007,345 @@ textarea.field-input {
 .hidden { display: none !important; }
 
 /* ══════════════════════════════════════
+   ADMIN VIEW
+   ══════════════════════════════════════ */
+.admin-view { display: none; }
+.admin-view.active { display: block; }
+
+/* Admin top controls bar */
+.admin-controls {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 32px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.admin-controls select {
+  padding: 9px 14px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg-card);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+.admin-controls select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.admin-btn:hover { border-color: var(--accent); color: var(--accent); }
+.admin-btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+.admin-btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+.admin-btn-danger {
+  color: var(--danger);
+  border-color: rgba(220,38,38,0.3);
+}
+.admin-btn-danger:hover { background: rgba(220,38,38,0.08); border-color: var(--danger); color: var(--danger); }
+
+/* Admin dashboard layout */
+.admin-dashboard {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 32px 120px;
+}
+
+/* Admin Summary Cards */
+.admin-summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.admin-summary-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.admin-summary-card .label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.admin-summary-card .value {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+.admin-summary-card .delta {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.admin-delta-up { color: var(--success); }
+.admin-delta-down { color: var(--danger); }
+.admin-delta-neutral { color: var(--text-muted); }
+
+/* Admin Section Headers */
+.admin-section-header {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-section-header .badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--accent-light);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Admin Cards */
+.admin-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 28px;
+}
+
+/* Admin Reporting Status Grid */
+.admin-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+.admin-status-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  transition: all 0.15s;
+}
+.admin-status-item:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.admin-status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.admin-status-badge.submitted { background: var(--success-light); color: var(--success); }
+.admin-status-badge.pending { background: var(--warning-light); color: var(--warning); }
+.admin-status-badge.missing { background: var(--danger-light); color: var(--danger); }
+.admin-status-info { flex: 1; min-width: 0; }
+.admin-status-church {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.admin-status-pastor {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.admin-status-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+.admin-status-stats .att {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.admin-status-stats .meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Admin Chart Row */
+.admin-chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.admin-chart-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.admin-chart-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+/* Admin Church Table */
+.admin-church-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-church-table th {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--bg-header);
+  text-align: left;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.admin-church-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f3f6;
+  vertical-align: middle;
+}
+.admin-church-table tr:last-child td { border-bottom: none; }
+.admin-church-table tr:hover td { background: #f8fafc; }
+.icon-check { color: var(--success); font-weight: 700; }
+.icon-x { color: var(--danger); font-weight: 700; }
+.icon-q { color: var(--warning); font-weight: 700; }
+
+/* Admin Detail Section */
+.admin-detail-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.admin-detail-controls select {
+  padding: 12px 16px;
+  background: #f9fafb;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+  max-width: 400px;
+  transition: border-color 0.2s;
+}
+.admin-detail-controls select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(30,64,175,0.1); }
+
+.admin-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.admin-detail-table th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--bg-header);
+  background: #f8fafc;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.admin-detail-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f1f3f6;
+}
+.admin-detail-table tr:last-child td { border-bottom: none; }
+.admin-detail-table tr:hover td { background: #f8fafc; }
+
+/* Admin Empty State */
+.admin-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.admin-empty-state .icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+.admin-empty-state p { font-size: 14px; }
+
+/* Admin Footer */
+.admin-footer {
+  text-align: center;
+  padding: 32px 24px 48px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.admin-footer a { color: var(--accent); text-decoration: none; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--bg-header);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════
    DESKTOP
    ══════════════════════════════════════ */
 @media (min-width: 768px) {
@@ -1035,6 +1374,26 @@ textarea.field-input {
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .number-row { flex-direction: column; align-items: stretch; }
   .number-row .field-input { max-width: none; }
+  .admin-summary-row { grid-template-columns: repeat(2, 1fr); }
+  .admin-chart-row { grid-template-columns: 1fr; }
+  .admin-controls { padding: 16px 16px 0; }
+  .admin-dashboard { padding: 16px 16px 120px; }
+  .admin-status-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   PRINT
+   ══════════════════════════════════════ */
+@media print {
+  .top-bar { position: static; box-shadow: none; background: #1e293b; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .top-bar-right { display: none !important; }
+  .admin-controls { display: none !important; }
+  .admin-dashboard { padding: 0; }
+  .admin-card, .admin-chart-card, .admin-summary-card { box-shadow: none; break-inside: avoid; }
+  body { background: white; }
+  .admin-footer { page-break-before: always; }
+  .bottom-nav { display: none !important; }
+  .progress-bar-wrap { display: none !important; }
 }
 </style>
 </head>
@@ -1053,7 +1412,7 @@ textarea.field-input {
     <div class="top-bar-right">
       <button class="tab-pill active" id="tabForm" onclick="switchTab('form')">New Report</button>
       <button class="tab-pill" id="tabHistory" onclick="switchTab('history')">History</button>
-      <a href="DA_Admin_Dashboard.html" class="tab-pill">Admin Dashboard</a>
+      <button class="tab-pill" id="tabAdmin" onclick="switchTab('admin')">Admin Dashboard</button>
       <div class="deadline-badge">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         Due by the 10th
@@ -1451,6 +1810,29 @@ textarea.field-input {
 </div>
 
 <!-- ════════════════════════════════════════
+     ADMIN DASHBOARD VIEW
+     ════════════════════════════════════════ -->
+<div class="admin-view" id="adminView">
+  <div class="admin-controls">
+    <select id="adminMonthFilter" onchange="admin_renderDashboard()"></select>
+    <button class="admin-btn admin-btn-primary" onclick="admin_loadDemoData()">Load Demo Data</button>
+    <button class="admin-btn" onclick="admin_exportAllCSV()">Export CSV</button>
+    <button class="admin-btn admin-btn-danger" onclick="admin_clearAllData()">Clear Data</button>
+  </div>
+  <div class="admin-dashboard" id="adminDashboardContainer">
+    <div class="admin-empty-state" id="adminEmptyState">
+      <div class="icon">&#128202;</div>
+      <p style="font-size:18px;font-weight:800;margin-bottom:8px;">No report data yet</p>
+      <p>Click <strong>Load Demo Data</strong> above to populate the dashboard with sample churches, or have pastors submit reports using the Monthly Report form.</p>
+    </div>
+  </div>
+  <div class="admin-footer">
+    Data from DA Church Monthly Reports &middot; Metro East Section &middot; North Texas District<br>
+    Questions? Contact Lane Hastie at <a href="mailto:lhastiefirstag@yahoo.com">lhastiefirstag@yahoo.com</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
      SUCCESS OVERLAY
      ════════════════════════════════════════ -->
 <div class="success-overlay" id="successOverlay">
@@ -1478,15 +1860,21 @@ textarea.field-input {
 <!-- Confetti container -->
 <div class="confetti-container" id="confettiContainer"></div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
 <script>
 // ════════════════════════════════════════
-//  DATA LAYER
+//  DATA LAYER (shared between form, history, and admin)
 // ════════════════════════════════════════
 var STORAGE_KEY = 'da_monthly_reports';
 
 function getAllData() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
   catch(e) { return {}; }
+}
+function setAllData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 function getChurchHistory(name) {
   return getAllData()[name] || [];
@@ -1503,6 +1891,21 @@ function getLastSubmission(churchName) {
 }
 function getAllChurchNames() {
   return Object.keys(getAllData());
+}
+
+// Shared escape function
+function escHtml(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// Shared toast
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(function() { t.classList.remove('visible'); }, 2500);
 }
 
 // ════════════════════════════════════════
@@ -1643,22 +2046,32 @@ function validateStep0() {
 function switchTab(tab) {
   var tabForm = document.getElementById('tabForm');
   var tabHistory = document.getElementById('tabHistory');
+  var tabAdmin = document.getElementById('tabAdmin');
   tabForm.classList.remove('active');
   tabHistory.classList.remove('active');
+  tabAdmin.classList.remove('active');
+
+  // Hide all views
+  document.getElementById('formView').classList.remove('active');
+  document.getElementById('historyView').classList.remove('active');
+  document.getElementById('adminView').classList.remove('active');
+  document.getElementById('progressBarWrap').classList.add('hidden');
+  document.getElementById('navBar').style.display = 'none';
 
   if (tab === 'form') {
     tabForm.classList.add('active');
     document.getElementById('formView').classList.add('active');
-    document.getElementById('historyView').classList.remove('active');
     document.getElementById('progressBarWrap').classList.remove('hidden');
     document.getElementById('navBar').style.display = '';
-  } else {
+  } else if (tab === 'history') {
     tabHistory.classList.add('active');
-    document.getElementById('formView').classList.remove('active');
     document.getElementById('historyView').classList.add('active');
-    document.getElementById('progressBarWrap').classList.add('hidden');
-    document.getElementById('navBar').style.display = 'none';
     renderHistory();
+  } else if (tab === 'admin') {
+    tabAdmin.classList.add('active');
+    document.getElementById('adminView').classList.add('active');
+    admin_populateMonthFilter();
+    admin_renderDashboard();
   }
 }
 
@@ -2035,12 +2448,6 @@ function reviewItem(label, value, full) {
     + '</div>';
 }
 
-function escHtml(s) {
-  var d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
 // ════════════════════════════════════════
 //  GATHER ENTRY
 // ════════════════════════════════════════
@@ -2391,7 +2798,7 @@ function renderHistory() {
 }
 
 // ════════════════════════════════════════
-//  CSV EXPORT
+//  CSV EXPORT (single church — from history view)
 // ════════════════════════════════════════
 function exportCSV(churchName) {
   var history = getChurchHistory(churchName);
@@ -2439,6 +2846,793 @@ function exportCSV(churchName) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+
+// ════════════════════════════════════════════════════════════════
+//  ADMIN DASHBOARD — all functions prefixed with admin_
+// ════════════════════════════════════════════════════════════════
+
+var ADMIN_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function admin_padTwo(n) {
+  return n < 10 ? '0' + n : '' + n;
+}
+function admin_makeYM(year, month) {
+  return year + '-' + admin_padTwo(month);
+}
+function admin_entryYM(entry) {
+  var d = new Date(entry.timestamp);
+  return admin_makeYM(d.getFullYear(), d.getMonth() + 1);
+}
+function admin_entryMatchesMonth(entry, ym) {
+  if (ym === 'all') return true;
+  return admin_entryYM(entry) === ym;
+}
+function admin_getSelectedMonth() {
+  return document.getElementById('adminMonthFilter').value;
+}
+function admin_getPreviousMonth(ym) {
+  if (ym === 'all') return null;
+  var parts = ym.split('-');
+  var y = parseInt(parts[0]);
+  var m = parseInt(parts[1]);
+  if (m === 1) return (y - 1) + '-12';
+  return y + '-' + admin_padTwo(m - 1);
+}
+
+function admin_populateMonthFilter() {
+  var sel = document.getElementById('adminMonthFilter');
+  sel.innerHTML = '';
+  var now = new Date();
+  var allData = getAllData();
+  var monthObj = {};
+  monthObj[admin_makeYM(now.getFullYear(), now.getMonth() + 1)] = true;
+  var churchKeys = Object.keys(allData);
+  for (var ci = 0; ci < churchKeys.length; ci++) {
+    var churchEntries = allData[churchKeys[ci]];
+    for (var ei = 0; ei < churchEntries.length; ei++) {
+      monthObj[admin_entryYM(churchEntries[ei])] = true;
+    }
+  }
+  var sorted = Object.keys(monthObj).sort().reverse();
+  for (var si = 0; si < sorted.length; si++) {
+    var ym = sorted[si];
+    var parts = ym.split('-');
+    var opt = document.createElement('option');
+    opt.value = ym;
+    opt.textContent = ADMIN_MONTHS[parseInt(parts[1]) - 1] + ' ' + parts[0];
+    sel.appendChild(opt);
+  }
+  var allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'All Time';
+  sel.appendChild(allOpt);
+}
+
+// Chart instances for admin
+var admin_attendTrendChart = null;
+var admin_salvBaptChart = null;
+var admin_comparisonChart = null;
+var admin_detailLineChart = null;
+
+function admin_renderDashboard() {
+  var allData = getAllData();
+  var churches = Object.keys(allData);
+  var container = document.getElementById('adminDashboardContainer');
+  var emptyEl = document.getElementById('adminEmptyState');
+
+  if (churches.length === 0) {
+    emptyEl.style.display = '';
+    container.innerHTML = '';
+    container.appendChild(emptyEl);
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  var ym = admin_getSelectedMonth();
+  var prevYm = admin_getPreviousMonth(ym);
+
+  // Gather current month and previous month data per church
+  var churchStats = [];
+  for (var ni = 0; ni < churches.length; ni++) {
+    var cName = churches[ni];
+    var cEntries = allData[cName];
+    var current = cEntries.filter(function(e) { return admin_entryMatchesMonth(e, ym); });
+    var prev = prevYm ? cEntries.filter(function(e) { return admin_entryMatchesMonth(e, prevYm); }) : [];
+    var latest = current.length ? current[current.length - 1] : null;
+    var prevLatest = prev.length ? prev[prev.length - 1] : null;
+    var lastEntry = cEntries[cEntries.length - 1];
+    churchStats.push({ name: cName, entries: cEntries, current: current, prev: prev, latest: latest, prevLatest: prevLatest, lastEntry: lastEntry });
+  }
+
+  // Summary computations
+  var reportingCount = churchStats.filter(function(c) { return c.current.length > 0; }).length;
+  var prevReportingCount = churchStats.filter(function(c) { return c.prev.length > 0; }).length;
+
+  var totalAttCurrent = 0, totalAttPrev = 0;
+  var totalSalvCurrent = 0, totalSalvYTD = 0;
+  var totalWaterCurrent = 0, totalSpiritCurrent = 0;
+  var currentYear = new Date().getFullYear();
+
+  churchStats.forEach(function(c) {
+    if (c.latest) {
+      totalAttCurrent += (c.latest.attendAdults || 0) + (c.latest.attendMinors || 0);
+      totalSalvCurrent += (c.latest.salvations || 0);
+      totalWaterCurrent += (c.latest.waterBaptisms || 0);
+      totalSpiritCurrent += (c.latest.spiritBaptisms || 0);
+    }
+    if (c.prevLatest) {
+      totalAttPrev += (c.prevLatest.attendAdults || 0) + (c.prevLatest.attendMinors || 0);
+    }
+    c.entries.filter(function(e) { return new Date(e.timestamp).getFullYear() === currentYear; }).forEach(function(e) {
+      totalSalvYTD += (e.salvations || 0);
+    });
+  });
+
+  var attDelta = totalAttCurrent - totalAttPrev;
+  var reportDelta = reportingCount - prevReportingCount;
+
+  // Build month label mapping for charts (last 6 months)
+  var allMonthsObj = {};
+  churches.forEach(function(ch) {
+    allData[ch].forEach(function(e) {
+      allMonthsObj[admin_entryYM(e)] = true;
+    });
+  });
+  var sortedMonths = Object.keys(allMonthsObj).sort().slice(-6);
+  var monthLabels = sortedMonths.map(function(m) {
+    var p = m.split('-');
+    return ADMIN_MONTHS[parseInt(p[1]) - 1].slice(0, 3) + ' ' + p[0].slice(2);
+  });
+
+  // Attendance trend data
+  var attTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      var match = allData[ch].filter(function(e) { return admin_entryYM(e) === m; });
+      if (match.length) {
+        var last = match[match.length - 1];
+        total += (last.attendAdults || 0) + (last.attendMinors || 0);
+      }
+    });
+    return total;
+  });
+
+  // Salvations + baptisms trend
+  var salvTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      allData[ch].filter(function(e) { return admin_entryYM(e) === m; }).forEach(function(e) {
+        total += (e.salvations || 0);
+      });
+    });
+    return total;
+  });
+  var baptTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      allData[ch].filter(function(e) { return admin_entryYM(e) === m; }).forEach(function(e) {
+        total += (e.waterBaptisms || 0) + (e.spiritBaptisms || 0);
+      });
+    });
+    return total;
+  });
+
+  // Comparison data
+  var compData = churchStats.map(function(c) {
+    return {
+      name: c.name,
+      adults: c.latest ? (c.latest.attendAdults || 0) : 0,
+      minors: c.latest ? (c.latest.attendMinors || 0) : 0,
+      total: c.latest ? (c.latest.attendAdults || 0) + (c.latest.attendMinors || 0) : 0
+    };
+  }).sort(function(a, b) { return b.total - a.total; });
+
+  // Reporting status
+  var statusItems = churchStats.map(function(c) {
+    var status = 'missing';
+    var statusLabel = 'MISSING';
+    if (c.current.length > 0) {
+      status = 'submitted';
+      statusLabel = 'SUBMITTED';
+    } else if (c.prev.length > 0) {
+      status = 'pending';
+      statusLabel = 'PENDING';
+    }
+    var lastDate = c.lastEntry ? new Date(c.lastEntry.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }) : 'Never';
+    var lastAtt = c.lastEntry ? (c.lastEntry.attendAdults || 0) + (c.lastEntry.attendMinors || 0) : 0;
+    var lastSalv = c.lastEntry ? (c.lastEntry.salvations || 0) : 0;
+    var pastorName = c.lastEntry ? ((c.lastEntry.pastorFirst || '') + ' ' + (c.lastEntry.pastorLast || '')).trim() : 'Unknown';
+    var result = {};
+    for (var k in c) { if (c.hasOwnProperty(k)) result[k] = c[k]; }
+    result.status = status;
+    result.statusLabel = statusLabel;
+    result.lastDate = lastDate;
+    result.lastAtt = lastAtt;
+    result.lastSalv = lastSalv;
+    result.pastorName = pastorName;
+    return result;
+  }).sort(function(a, b) {
+    var order = { missing: 0, pending: 1, submitted: 2 };
+    if (order[a.status] !== order[b.status]) return order[a.status] - order[b.status];
+    return a.name.localeCompare(b.name);
+  });
+
+  // Compliance data
+  var complianceRows = churchStats.map(function(c) {
+    var last = c.lastEntry;
+    return {
+      name: c.name,
+      ministrySafe: last ? (last.ministrySafe || '') : '',
+      aplos: last ? (last.aplos || '') : '',
+      insurance: last ? (Array.isArray(last.insurance) ? last.insurance : []) : [],
+      lastDate: last ? new Date(last.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }) : 'Never'
+    };
+  });
+
+  function complianceIcon(val, yesVal) {
+    if (!val) return '<span class="icon-q" title="Unknown">?</span>';
+    if (val === yesVal) return '<span class="icon-check" title="Yes">&#10003;</span>';
+    if (val === 'No') return '<span class="icon-x" title="No">&#10007;</span>';
+    return '<span class="icon-q" title="' + val + '">?</span>';
+  }
+  function insuranceIcon(arr) {
+    if (!arr.length) return '<span class="icon-q" title="Unknown">?</span>';
+    if (arr.indexOf('None') >= 0) return '<span class="icon-check" title="No issues">&#10003;</span>';
+    return '<span class="icon-x" title="' + arr.join(', ') + '">&#10007;</span>';
+  }
+
+  // Church selector for detail
+  var detailOptions = churches.sort().map(function(n) {
+    return '<option value="' + n.replace(/"/g, '&quot;') + '">' + escHtml(n) + '</option>';
+  }).join('');
+
+  // Build status items HTML
+  var statusHtml = statusItems.map(function(s) {
+    return '<div class="admin-status-item">'
+      + '<span class="admin-status-badge ' + s.status + '">' + s.statusLabel + '</span>'
+      + '<div class="admin-status-info">'
+      + '<div class="admin-status-church">' + escHtml(s.name) + '</div>'
+      + '<div class="admin-status-pastor">' + escHtml(s.pastorName) + ' &middot; Last: ' + s.lastDate + '</div>'
+      + '</div>'
+      + '<div class="admin-status-stats">'
+      + '<div class="att">' + s.lastAtt + '</div>'
+      + '<div class="meta">' + s.lastSalv + ' saved</div>'
+      + '</div></div>';
+  }).join('');
+
+  // Build compliance rows HTML
+  var complianceHtml = complianceRows.map(function(r) {
+    return '<tr>'
+      + '<td style="font-weight:700;">' + escHtml(r.name) + '</td>'
+      + '<td style="text-align:center;">' + complianceIcon(r.ministrySafe, 'Yes') + '</td>'
+      + '<td style="text-align:center;">' + complianceIcon(r.aplos, 'Yes') + '</td>'
+      + '<td style="text-align:center;">' + insuranceIcon(r.insurance) + '</td>'
+      + '<td>' + r.lastDate + '</td></tr>';
+  }).join('');
+
+  // Delta class helpers
+  var reportDeltaClass = reportDelta > 0 ? 'admin-delta-up' : reportDelta < 0 ? 'admin-delta-down' : 'admin-delta-neutral';
+  var attDeltaClass = attDelta > 0 ? 'admin-delta-up' : attDelta < 0 ? 'admin-delta-down' : 'admin-delta-neutral';
+  var attDeltaPrefix = attDelta > 0 ? '&#9650; +' : attDelta < 0 ? '&#9660; ' : '';
+  var reportDeltaPrefix = reportDelta > 0 ? '+' : '';
+
+  var monthFilterLabel = ym === 'all' ? 'All Time' : document.getElementById('adminMonthFilter').selectedOptions[0].textContent;
+
+  container.innerHTML = ''
+    + '<!-- Row 1: Summary Cards -->'
+    + '<div class="admin-summary-row">'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Churches Reporting</div>'
+    + '<div class="value">' + reportingCount + ' <span style="font-size:16px;font-weight:600;color:var(--text-muted)">/ ' + churches.length + '</span></div>'
+    + '<div class="delta ' + reportDeltaClass + '">' + reportDeltaPrefix + reportDelta + ' vs last month</div>'
+    + '</div>'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Combined Attendance</div>'
+    + '<div class="value">' + totalAttCurrent.toLocaleString() + '</div>'
+    + '<div class="delta ' + attDeltaClass + '">' + attDeltaPrefix + attDelta.toLocaleString() + ' from last month</div>'
+    + '</div>'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Salvations</div>'
+    + '<div class="value">' + totalSalvCurrent + '</div>'
+    + '<div class="delta admin-delta-neutral">' + totalSalvYTD + ' YTD (' + currentYear + ')</div>'
+    + '</div>'
+    + '<div class="admin-summary-card">'
+    + '<div class="label">Total Baptisms</div>'
+    + '<div class="value">' + (totalWaterCurrent + totalSpiritCurrent) + '</div>'
+    + '<div class="delta admin-delta-neutral">' + totalWaterCurrent + ' water + ' + totalSpiritCurrent + ' spirit</div>'
+    + '</div></div>'
+    + '<!-- Row 2: Reporting Status -->'
+    + '<div class="admin-section-header">Reporting Status <span class="badge">' + monthFilterLabel + '</span></div>'
+    + '<div class="admin-card"><div class="admin-status-grid">' + statusHtml + '</div></div>'
+    + '<!-- Row 3: Charts -->'
+    + '<div class="admin-chart-row">'
+    + '<div class="admin-chart-card"><div class="admin-chart-title">Attendance Trend (Section Total)</div><canvas id="adminAttendTrendCanvas" height="260"></canvas></div>'
+    + '<div class="admin-chart-card"><div class="admin-chart-title">Salvations &amp; Baptisms</div><canvas id="adminSalvBaptCanvas" height="260"></canvas></div>'
+    + '</div>'
+    + '<!-- Row 4: Church Comparison -->'
+    + '<div class="admin-section-header">Church Comparison</div>'
+    + '<div class="admin-card"><canvas id="adminComparisonCanvas" height="' + Math.max(200, compData.length * 40) + '"></canvas></div>'
+    + '<!-- Row 5: Compliance Overview -->'
+    + '<div class="admin-section-header">Compliance Overview</div>'
+    + '<div class="admin-card" style="overflow-x:auto;padding:0;">'
+    + '<table class="admin-church-table"><thead><tr>'
+    + '<th>Church</th><th style="text-align:center;">Ministry Safe</th><th style="text-align:center;">Aplos</th><th style="text-align:center;">Insurance</th><th>Last Reported</th>'
+    + '</tr></thead><tbody>' + complianceHtml + '</tbody></table></div>'
+    + '<!-- Row 6: Individual Church Detail -->'
+    + '<div class="admin-section-header">Individual Church Detail</div>'
+    + '<div class="admin-card"><div class="admin-detail-controls">'
+    + '<select id="adminDetailChurchSelect" onchange="admin_renderDetail()">'
+    + '<option value="">-- Select a church --</option>' + detailOptions
+    + '</select></div><div id="adminDetailContent"></div></div>';
+
+  // Build Charts
+  admin_buildAttendanceTrendChart(monthLabels, attTrendData);
+  admin_buildSalvBaptChart(monthLabels, salvTrendData, baptTrendData);
+  admin_buildComparisonChart(compData);
+}
+
+function admin_buildAttendanceTrendChart(labels, data) {
+  if (admin_attendTrendChart) admin_attendTrendChart.destroy();
+  var ctx = document.getElementById('adminAttendTrendCanvas');
+  if (!ctx) return;
+  admin_attendTrendChart = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Total Attendance',
+        data: data,
+        borderColor: '#1e40af',
+        backgroundColor: 'rgba(30,64,175,0.08)',
+        fill: true,
+        tension: 0.35,
+        pointRadius: 5,
+        pointBackgroundColor: '#1e40af',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' total attendance'; } } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '600' }, color: '#4b5563' } },
+        y: { grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function admin_buildSalvBaptChart(labels, salvData, baptData) {
+  if (admin_salvBaptChart) admin_salvBaptChart.destroy();
+  var ctx = document.getElementById('adminSalvBaptCanvas');
+  if (!ctx) return;
+  admin_salvBaptChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Salvations',
+          data: salvData,
+          backgroundColor: 'rgba(30,64,175,0.8)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        },
+        {
+          label: 'Baptisms',
+          data: baptData,
+          backgroundColor: 'rgba(22,163,74,0.8)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter', weight: '600' }, usePointStyle: true, pointStyleWidth: 10, padding: 20 } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '600' }, color: '#4b5563' } },
+        y: { stacked: true, grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af', stepSize: 5 }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function admin_buildComparisonChart(data) {
+  if (admin_comparisonChart) admin_comparisonChart.destroy();
+  var ctx = document.getElementById('adminComparisonCanvas');
+  if (!ctx) return;
+  admin_comparisonChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: data.map(function(d) { return d.name; }),
+      datasets: [
+        {
+          label: 'Adults',
+          data: data.map(function(d) { return d.adults; }),
+          backgroundColor: 'rgba(30,64,175,0.85)',
+          borderRadius: 4,
+          barPercentage: 0.6
+        },
+        {
+          label: 'Under 18',
+          data: data.map(function(d) { return d.minors; }),
+          backgroundColor: 'rgba(139,92,246,0.7)',
+          borderRadius: 4,
+          barPercentage: 0.6
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter', weight: '600' }, usePointStyle: true, pointStyleWidth: 10, padding: 20 } },
+        tooltip: {
+          callbacks: {
+            afterBody: function(items) {
+              var idx = items[0].dataIndex;
+              return 'Total: ' + data[idx].total;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' }, beginAtZero: true },
+        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '700' }, color: '#111827' } }
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════
+//  ADMIN — INDIVIDUAL CHURCH DETAIL
+// ════════════════════════════════════════
+function admin_renderDetail() {
+  var sel = document.getElementById('adminDetailChurchSelect');
+  var container = document.getElementById('adminDetailContent');
+  var name = sel.value;
+  if (!name) { container.innerHTML = ''; return; }
+
+  var allData = getAllData();
+  var entries = allData[name] || [];
+  if (!entries.length) {
+    container.innerHTML = '<p style="color:var(--text-muted);padding:20px 0;">No reports for this church.</p>';
+    return;
+  }
+
+  var chronoEntries = entries.slice();
+  var labels = chronoEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    return d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+  });
+
+  // Build detail table rows
+  var reversedEntries = entries.slice().reverse();
+  var detailRowsHtml = reversedEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    var dateStr = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    var total = (e.attendAdults || 0) + (e.attendMinors || 0);
+    return '<tr>'
+      + '<td>' + dateStr + '</td>'
+      + '<td>' + (e.attendAdults || 0) + '</td>'
+      + '<td>' + (e.attendMinors || 0) + '</td>'
+      + '<td>' + (e.attendMidweek || 0) + '</td>'
+      + '<td><strong>' + total + '</strong></td>'
+      + '<td>' + (e.salvations || 0) + '</td>'
+      + '<td>' + (e.waterBaptisms || 0) + '</td>'
+      + '<td>' + (e.spiritBaptisms || 0) + '</td>'
+      + '<td>' + (e.communionCount || 0) + '</td>'
+      + '</tr>';
+  }).join('');
+
+  // Build compliance history rows
+  var compHistHtml = reversedEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    var dateStr = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    var ins = Array.isArray(e.insurance) ? e.insurance.join(', ') : (e.insurance || '');
+    return '<tr><td>' + dateStr + '</td><td>' + (e.ministrySafe || '--') + '</td><td>' + (e.aplos || '--') + '</td><td>' + (ins || '--') + '</td></tr>';
+  }).join('');
+
+  container.innerHTML = ''
+    + '<div style="overflow-x:auto;">'
+    + '<table class="admin-detail-table"><thead><tr>'
+    + '<th>Date</th><th>Adults</th><th>Under 18</th><th>Midweek</th><th>Total</th>'
+    + '<th>Salvations</th><th>Water Bapt.</th><th>Spirit Bapt.</th><th>Communion</th>'
+    + '</tr></thead><tbody>' + detailRowsHtml + '</tbody></table></div>'
+    + '<div style="margin-top:20px;">'
+    + '<div class="admin-chart-title">Attendance Trend &mdash; ' + escHtml(name) + '</div>'
+    + '<canvas id="adminDetailLineCanvas" height="200"></canvas></div>'
+    + '<div style="margin-top:20px;overflow-x:auto;">'
+    + '<div class="admin-chart-title">Compliance History</div>'
+    + '<table class="admin-detail-table"><thead><tr><th>Date</th><th>Ministry Safe</th><th>Aplos</th><th>Insurance</th></tr></thead>'
+    + '<tbody>' + compHistHtml + '</tbody></table></div>';
+
+  // Detail line chart
+  if (admin_detailLineChart) admin_detailLineChart.destroy();
+  var ctx = document.getElementById('adminDetailLineCanvas');
+  if (!ctx) return;
+  admin_detailLineChart = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Adults',
+          data: chronoEntries.map(function(e) { return e.attendAdults || 0; }),
+          borderColor: '#1e40af',
+          backgroundColor: 'rgba(30,64,175,0.06)',
+          fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#1e40af', borderWidth: 2
+        },
+        {
+          label: 'Under 18',
+          data: chronoEntries.map(function(e) { return e.attendMinors || 0; }),
+          borderColor: '#16a34a',
+          backgroundColor: 'rgba(22,163,74,0.06)',
+          fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#16a34a', borderWidth: 2
+        },
+        {
+          label: 'Midweek',
+          data: chronoEntries.map(function(e) { return e.attendMidweek || 0; }),
+          borderColor: '#d97706',
+          backgroundColor: 'transparent',
+          borderDash: [5, 4], tension: 0.3, pointRadius: 3, pointBackgroundColor: '#d97706', borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter', weight: '600' }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' } },
+        y: { grid: { color: '#f1f3f6' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════
+//  ADMIN — DEMO DATA
+// ════════════════════════════════════════
+function admin_loadDemoData() {
+  var now = new Date();
+  var demoChurches = [
+    {
+      name: 'New Life AG',
+      city: 'Mesquite',
+      pastor: { first: 'David', last: 'Miller', email: 'dmiller@newlifeag.org', phone: '(972) 555-0101' },
+      months: [
+        { att: [85, 25], mid: 35, salv: 3, wb: 1, sb: 0, comm: 4 },
+        { att: [95, 30], mid: 40, salv: 5, wb: 2, sb: 1, comm: 4 },
+        { att: [90, 28], mid: 38, salv: 2, wb: 0, sb: 0, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Grace Community Church',
+      city: 'Balch Springs',
+      pastor: { first: 'Maria', last: 'Santos', email: 'msantos@gracecommunity.org', phone: '(214) 555-0202' },
+      months: [
+        { att: [45, 15], mid: 18, salv: 1, wb: 0, sb: 0, comm: 4 },
+        { att: [42, 12], mid: 16, salv: 0, wb: 0, sb: 0, comm: 4 },
+        { att: [50, 18], mid: 22, salv: 2, wb: 1, sb: 0, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'No', ins: ['None']
+    },
+    {
+      name: 'Crosspoint Fellowship',
+      city: 'Sunnyvale',
+      pastor: { first: 'James', last: 'Wright', email: 'jwright@crosspointfellowship.org', phone: '(469) 555-0303' },
+      months: [
+        { att: [120, 40], mid: 55, salv: 8, wb: 3, sb: 2, comm: 4 },
+        { att: [125, 45], mid: 60, salv: 6, wb: 2, sb: 1, comm: 4 },
+        { att: [130, 42], mid: 58, salv: 10, wb: 4, sb: 3, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Faith Assembly',
+      city: 'Seagoville',
+      pastor: { first: 'Robert', last: 'Chen', email: 'rchen@faithassembly.org', phone: '(972) 555-0404' },
+      months: [
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
+        { att: [28, 10], mid: 10, salv: 1, wb: 0, sb: 0, comm: 3 },
+        { att: [25, 7], mid: 9, salv: 0, wb: 0, sb: 0, comm: 2 }
+      ],
+      ms: 'No', aplos: "Don't know", ins: ['Payment Difficulty']
+    },
+    {
+      name: 'Living Water Church',
+      city: 'Forney',
+      pastor: { first: 'Sarah', last: 'Johnson', email: 'sjohnson@livingwater.church', phone: '(469) 555-0505' },
+      months: [
+        { att: [200, 65], mid: 95, salv: 12, wb: 5, sb: 4, comm: 4 },
+        { att: [210, 70], mid: 100, salv: 15, wb: 6, sb: 3, comm: 5 },
+        { att: [195, 60], mid: 88, salv: 8, wb: 3, sb: 2, comm: 4 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Primera Iglesia AG',
+      city: 'Mesquite',
+      pastor: { first: 'Carlos', last: 'Reyes', email: 'creyes@primeraiglesiaag.org', phone: '(214) 555-0606' },
+      months: [
+        { att: [70, 30], mid: 32, salv: 4, wb: 2, sb: 1, comm: 4 },
+        { att: [75, 35], mid: 38, salv: 3, wb: 1, sb: 0, comm: 4 },
+        { att: [72, 32], mid: 35, salv: 5, wb: 2, sb: 1, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Hope Chapel',
+      city: 'Kaufman',
+      pastor: { first: 'Tim', last: 'Anderson', email: 'tanderson@hopechapel.org', phone: '(972) 555-0707' },
+      months: [
+        { att: [35, 10], mid: 15, salv: 1, wb: 0, sb: 0, comm: 3 },
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
+        { att: [32, 12], mid: 14, salv: 1, wb: 1, sb: 0, comm: 3 }
+      ],
+      ms: "Don't know", aplos: 'No', ins: ['Outstanding Bill']
+    },
+    {
+      name: 'Restoration Church',
+      city: 'Terrell',
+      pastor: { first: 'Anthony', last: 'Brooks', email: 'abrooks@restorationchurch.org', phone: '(469) 555-0808' },
+      months: [
+        { att: [55, 20], mid: 25, salv: 2, wb: 1, sb: 0, comm: 4 },
+        { att: [60, 22], mid: 28, salv: 3, wb: 1, sb: 1, comm: 4 },
+        { att: [58, 18], mid: 24, salv: 2, wb: 0, sb: 0, comm: 4 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    }
+  ];
+
+  var data = {};
+
+  demoChurches.forEach(function(church) {
+    data[church.name] = church.months.map(function(m, i) {
+      var monthsAgo = church.months.length - i;
+      var d = new Date(now.getFullYear(), now.getMonth() - monthsAgo, 15, 10, 0, 0);
+      return {
+        timestamp: d.toISOString(),
+        churchName: church.name,
+        churchAddress: '',
+        churchPhone: '',
+        pastorFirst: church.pastor.first,
+        pastorLast: church.pastor.last,
+        pastorEmail: church.pastor.email,
+        pastorPhone: church.pastor.phone,
+        fillerName: '',
+        fillerEmail: '',
+        attendAdults: m.att[0],
+        attendMinors: m.att[1],
+        attendMidweek: m.mid,
+        salvations: m.salv,
+        waterBaptisms: m.wb,
+        spiritBaptisms: m.sb,
+        communionCount: m.comm,
+        specialEvents: '',
+        missionsPromo: '',
+        ministrySafe: church.ms,
+        aplos: church.aplos,
+        insurance: church.ins,
+        insuranceOther: '',
+        sectionConnection: 'Yes',
+        presbyCall: 'No',
+        comments: ''
+      };
+    });
+  });
+
+  setAllData(data);
+  admin_populateMonthFilter();
+  admin_renderDashboard();
+  showToast('Demo data loaded — 8 churches, 3 months each');
+}
+
+// ════════════════════════════════════════
+//  ADMIN — EXPORT ALL CSV
+// ════════════════════════════════════════
+function admin_exportAllCSV() {
+  var allData = getAllData();
+  var churches = Object.keys(allData);
+  if (!churches.length) { showToast('No data to export'); return; }
+
+  var headers = ['Date','Church','Pastor','Adults','Under 18','Total','Midweek','Salvations','Water Baptisms','Spirit Baptisms','Communion','Ministry Safe','Aplos','Insurance','Comments'];
+  var rows = [];
+  churches.sort().forEach(function(ch) {
+    allData[ch].forEach(function(e) {
+      var total = (e.attendAdults || 0) + (e.attendMinors || 0);
+      rows.push([
+        new Date(e.timestamp).toLocaleDateString('en-US'),
+        '"' + (e.churchName || '').replace(/"/g, '""') + '"',
+        '"' + (e.pastorFirst || '') + ' ' + (e.pastorLast || '') + '"',
+        e.attendAdults || 0,
+        e.attendMinors || 0,
+        total,
+        e.attendMidweek || 0,
+        e.salvations || 0,
+        e.waterBaptisms || 0,
+        e.spiritBaptisms || 0,
+        e.communionCount || 0,
+        '"' + (e.ministrySafe || '') + '"',
+        '"' + (e.aplos || '') + '"',
+        '"' + (Array.isArray(e.insurance) ? e.insurance.join('; ') : '') + '"',
+        '"' + (e.comments || '').replace(/"/g, '""') + '"'
+      ]);
+    });
+  });
+
+  var csvParts = [headers.join(',')];
+  for (var ri = 0; ri < rows.length; ri++) {
+    csvParts.push(rows[ri].join(','));
+  }
+  var csv = csvParts.join('\n');
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'DA_Metro_East_All_Reports.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('CSV exported');
+}
+
+// ════════════════════════════════════════
+//  ADMIN — CLEAR DATA
+// ════════════════════════════════════════
+function admin_clearAllData() {
+  if (!confirm('Clear ALL report data from this browser? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  admin_populateMonthFilter();
+  admin_renderDashboard();
+  showToast('All data cleared');
+}
+
+// ════════════════════════════════════════
+//  AUTO-REFRESH (detect localStorage changes)
+// ════════════════════════════════════════
+window.addEventListener('storage', function(e) {
+  if (e.key === STORAGE_KEY) {
+    // Refresh admin if it's visible
+    if (document.getElementById('adminView').classList.contains('active')) {
+      admin_populateMonthFilter();
+      admin_renderDashboard();
+    }
+  }
+});
+
+// Also poll every 30s for same-tab changes (refreshes admin if active)
+setInterval(function() {
+  var current = localStorage.getItem(STORAGE_KEY);
+  if (current !== window._lastDataSnapshot) {
+    window._lastDataSnapshot = current;
+    if (document.getElementById('adminView').classList.contains('active')) {
+      admin_populateMonthFilter();
+      admin_renderDashboard();
+    }
+  }
+}, 30000);
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  window._lastDataSnapshot = localStorage.getItem(STORAGE_KEY);
+  updateProgressBar();
+});
 </script>
 </body>
 </html>
