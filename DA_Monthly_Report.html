@@ -3490,14 +3490,14 @@ function admin_renderModal(name) {
     }
   }
 
-  document.getElementById('churchModal').classList.add('visible');
+  document.getElementById('churchModal').style.display = 'block';
 }
 
 function admin_closeModal() {
-  document.getElementById('churchModal').classList.remove('visible');
+  document.getElementById('churchModal').style.display = 'none';
 }
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && document.getElementById('churchModal').classList.contains('visible')) {
+  if (e.key === 'Escape' && document.getElementById('churchModal').style.display !== 'none') {
     admin_closeModal();
   }
 });
@@ -3869,17 +3869,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Church Detail Modal -->
-<div class="church-modal-overlay" id="churchModal" onclick="if(event.target===this)admin_closeModal()">
-  <div class="church-modal">
-    <div class="church-modal-header">
-      <div class="church-modal-title" id="churchModalTitle">Church Detail</div>
-      <div class="church-modal-nav">
-        <button onclick="admin_modalPrev()">&#9664; Prev</button>
-        <button onclick="admin_modalNext()">Next &#9654;</button>
-        <button class="church-modal-close" onclick="admin_closeModal()">&times;</button>
+<div id="churchModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.7);overflow-y:auto;padding:40px 20px;" onclick="if(event.target===this)admin_closeModal()">
+  <div id="churchModalInner" style="background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:1000px;margin:0 auto;overflow:hidden;">
+    <div id="churchModalHeader" style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:2px solid #d1d5dc;background:#fff;position:sticky;top:0;z-index:1;">
+      <div id="churchModalTitle" style="font-size:18px;font-weight:800;">Church Detail</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button onclick="admin_modalPrev()" style="padding:6px 14px;border:2px solid #d1d5dc;border-radius:6px;background:#fff;font-family:var(--font);font-size:13px;font-weight:600;color:#4b5563;cursor:pointer;">&#9664; Prev</button>
+        <button onclick="admin_modalNext()" style="padding:6px 14px;border:2px solid #d1d5dc;border-radius:6px;background:#fff;font-family:var(--font);font-size:13px;font-weight:600;color:#4b5563;cursor:pointer;">Next &#9654;</button>
+        <button onclick="admin_closeModal()" style="width:36px;height:36px;border:none;background:none;font-size:22px;color:#9ca3af;cursor:pointer;border-radius:6px;margin-left:12px;">&#215;</button>
       </div>
     </div>
-    <div class="church-modal-body" id="churchModalBody"></div>
+    <div id="churchModalBody" style="padding:24px;"></div>
   </div>
 </div>
 
