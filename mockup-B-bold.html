@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option B — Bold Slate</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f1f3f6;
+  --bg-card: #ffffff;
+  --bg-header: #1e293b;
+  --border: #d1d5dc;
+  --border-focus: #1e40af;
+  --text: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-header: #f1f5f9;
+  --accent: #1e40af;
+  --accent-light: #dbeafe;
+  --accent-dark: #1e3a8a;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --font: 'Inter', -apple-system, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* Header — dark slate */
+.top-bar {
+  background: var(--bg-header);
+  padding: 20px 32px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.top-bar-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.top-bar-left h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
+.top-bar-left .subtitle { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+.top-bar-left .contact { font-size: 12px; color: #64748b; margin-top: 2px; }
+.top-bar-left .contact a { color: #93c5fd; text-decoration: none; }
+.top-bar-right { display: flex; align-items: center; gap: 8px; }
+.tab-pill {
+  padding: 9px 20px; border: 1.5px solid #334155; border-radius: 6px;
+  font-family: var(--font); font-size: 13px; font-weight: 600;
+  color: #94a3b8; background: transparent; cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
+}
+.tab-pill:hover { border-color: #60a5fa; color: #60a5fa; }
+.tab-pill.active { background: #ffffff; color: var(--bg-header); border-color: #ffffff; }
+.deadline-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(239,68,68,0.15); color: #fca5a5;
+  font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* Progress */
+.progress-bar-wrap {
+  background: #ffffff; border-bottom: 2px solid var(--border); padding: 14px 32px;
+}
+.progress-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.progress-label { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.progress-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; width: 16%; background: var(--accent); border-radius: 4px; transition: width 0.3s; }
+.progress-pct { font-size: 14px; font-weight: 800; color: var(--accent); min-width: 36px; text-align: right; }
+
+/* Main */
+.main { max-width: 1280px; margin: 0 auto; padding: 32px 32px 120px; }
+
+/* Section */
+.section-label {
+  font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--accent); margin-bottom: 6px;
+}
+.section-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); margin-bottom: 4px; }
+.section-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
+
+/* Card */
+.form-card {
+  background: var(--bg-card); border: 2px solid var(--border);
+  border-radius: 10px; padding: 32px; margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Fields */
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-group.full { grid-column: 1 / -1; }
+.field-label { font-size: 13px; font-weight: 700; color: var(--text); }
+.field-input, .field-select {
+  padding: 12px 16px; background: #f9fafb; border: 2px solid var(--border);
+  border-radius: 6px; font-family: var(--font); font-size: 15px; color: var(--text);
+  transition: border-color 0.2s; outline: none; width: 100%;
+}
+.field-input::placeholder { color: var(--text-muted); }
+.field-input:focus, .field-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(30,64,175,0.1); }
+.field-select { appearance: none; cursor: pointer; }
+
+/* Stepper */
+.stepper { display: flex; align-items: center; }
+.stepper-btn {
+  width: 48px; height: 48px; border: 2px solid var(--border); background: #f9fafb;
+  color: var(--accent); font-size: 22px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.stepper-btn:first-child { border-radius: 6px 0 0 6px; }
+.stepper-btn:last-child { border-radius: 0 6px 6px 0; }
+.stepper-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+.stepper-value {
+  width: 72px; height: 48px; background: #ffffff; border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border); color: var(--text); font-size: 20px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; font-family: var(--font);
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #ffffff; border-top: 2px solid var(--border); padding: 14px 32px;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+}
+.nav-inner { max-width: 1280px; margin: 0 auto; display: flex; gap: 12px; justify-content: flex-end; }
+.btn {
+  padding: 14px 36px; border: none; border-radius: 6px; font-family: var(--font);
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.btn-secondary { background: #f1f5f9; color: var(--text-secondary); border: 2px solid var(--border); }
+.btn-secondary:hover { border-color: var(--text-secondary); }
+.btn-primary { background: var(--accent); color: #ffffff; }
+.btn-primary:hover { background: var(--accent-dark); }
+
+/* Divider */
+.divider { text-align: center; padding: 48px 0; }
+.divider-line { height: 2px; background: var(--border); margin-bottom: 24px; }
+.divider-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+
+/* Admin Preview */
+.admin-header { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+.summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.summary-card {
+  background: var(--bg-card); border: 2px solid var(--border); border-radius: 8px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.summary-card .label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.summary-card .value { font-size: 28px; font-weight: 900; color: var(--accent); margin-top: 4px; }
+.summary-card .sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+.church-table { width: 100%; border-collapse: collapse; }
+.church-table th {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--bg-header); text-align: left; padding: 14px 16px; background: #f8fafc;
+  border-bottom: 2px solid var(--border);
+}
+.church-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f1f3f6; }
+.church-table tr:hover { background: #f8fafc; }
+.status-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.status-badge.submitted { background: var(--success-light); color: var(--success); }
+.status-badge.pending { background: var(--warning-light); color: var(--warning); }
+.status-badge.missing { background: var(--danger-light); color: var(--danger); }
+
+@media (max-width: 768px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .summary-row { grid-template-columns: 1fr 1fr; }
+  .top-bar-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <h1>DA Church Monthly Report</h1>
+      <div class="subtitle">Metro East Section &mdash; North Texas District AG</div>
+      <div class="contact">Presbyter: Lane Hastie &middot; <a href="tel:9729626574">972-962-6574</a></div>
+    </div>
+    <div class="top-bar-right">
+      <button class="tab-pill active">New Report</button>
+      <button class="tab-pill">History</button>
+      <a href="#admin-preview" class="tab-pill">Admin</a>
+      <div class="deadline-badge">Due by the 10th</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">Step 1 of 6 &mdash; Church & Pastor</div>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+    <div class="progress-pct">16%</div>
+  </div>
+</div>
+
+<!-- ═══ FORM ═══ -->
+<div class="main">
+  <div class="section-label">Step 1</div>
+  <div class="section-title">Church & Pastor Info</div>
+  <div class="section-desc">Select your church or enter details manually.</div>
+
+  <div class="form-card">
+    <div class="field-grid">
+      <div class="field-group full">
+        <div class="field-label">Church Name</div>
+        <input class="field-input" type="text" placeholder="Start typing to search...">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Pastor Name</div>
+        <input class="field-input" type="text" placeholder="Rev. John Smith">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Reporting Month</div>
+        <select class="field-select">
+          <option>July 2026</option>
+          <option>June 2026</option>
+          <option>May 2026</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Pastor Email</div>
+        <input class="field-input" type="email" placeholder="pastor@church.org">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Pastor Phone</div>
+        <input class="field-input" type="tel" placeholder="(972) 555-0100">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="section-label" style="margin-bottom:16px;">Attendance</div>
+    <div class="field-grid">
+      <div class="field-group">
+        <div class="field-label">Sunday AM Worship</div>
+        <input class="field-input" type="number" placeholder="0" min="0" style="text-align:center; font-weight:800; font-size:18px;">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Sunday PM / Evening</div>
+        <input class="field-input" type="number" placeholder="0" min="0" style="text-align:center; font-weight:800; font-size:18px;">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Wednesday Midweek</div>
+        <input class="field-input" type="number" placeholder="0" min="0" style="text-align:center; font-weight:800; font-size:18px;">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Small Groups</div>
+        <input class="field-input" type="number" placeholder="0" min="0" style="text-align:center; font-weight:800; font-size:18px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-inner">
+      <button class="btn btn-secondary">Back</button>
+      <button class="btn btn-primary">Next Step &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="divider" id="admin-preview">
+    <div class="divider-line"></div>
+    <div class="divider-label">Admin Dashboard Preview</div>
+  </div>
+
+  <!-- ═══ ADMIN PREVIEW ═══ -->
+  <div class="admin-header">Section Overview &mdash; July 2026</div>
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="label">Churches</div>
+      <div class="value">19</div>
+      <div class="sub">Metro East Section</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Submitted</div>
+      <div class="value" style="color:var(--success);">12</div>
+      <div class="sub">63.2% compliance</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Total Attendance</div>
+      <div class="value">2,174</div>
+      <div class="sub">Avg 181 per church</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Conversions</div>
+      <div class="value">38</div>
+      <div class="sub">This month</div>
+    </div>
+  </div>
+
+  <div class="form-card" style="padding:0; overflow:hidden;">
+    <table class="church-table">
+      <thead>
+        <tr>
+          <th>Church</th>
+          <th>Pastor</th>
+          <th>Status</th>
+          <th>Sun AM</th>
+          <th>Conversions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">First Assembly</td>
+          <td style="color:var(--text-secondary);">Rev. Lane Hastie</td>
+          <td><span class="status-badge submitted">Submitted</span></td>
+          <td style="font-weight:800; color:var(--accent);">245</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Victory Church</td>
+          <td style="color:var(--text-secondary);">Rev. Mark Torres</td>
+          <td><span class="status-badge submitted">Submitted</span></td>
+          <td style="font-weight:800; color:var(--accent);">189</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Living Word AG</td>
+          <td style="color:var(--text-secondary);">Rev. David Chen</td>
+          <td><span class="status-badge pending">Pending</span></td>
+          <td style="color:var(--text-muted);">&mdash;</td>
+          <td style="color:var(--text-muted);">&mdash;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Grace Community</td>
+          <td style="color:var(--text-secondary);">Rev. James Wright</td>
+          <td><span class="status-badge missing">Missing</span></td>
+          <td style="color:var(--text-muted);">&mdash;</td>
+          <td style="color:var(--text-muted);">&mdash;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">Calvary Temple</td>
+          <td style="color:var(--text-secondary);">Rev. Robert Hayes</td>
+          <td><span class="status-badge submitted">Submitted</span></td>
+          <td style="font-weight:800; color:var(--accent);">312</td>
+          <td>12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

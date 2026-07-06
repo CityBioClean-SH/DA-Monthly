@@ -6,51 +6,41 @@
 <title>DA Church Monthly Report</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #f0f2f7;
-  --bg-gradient-top: #e8ecf4;
-  --bg-gradient-bottom: #f8f9fc;
-  --card: #ffffff;
-  --border: #e4e8f0;
-  --border-focus: #a3b8e0;
-  --text: #0f1729;
-  --text-secondary: #4a5568;
-  --text-muted: #8896ab;
-  --accent: #4f6df5;
-  --accent-light: #eef1fe;
-  --accent-dark: #3a51c4;
-  --accent-glow: rgba(79,109,245,0.15);
-  --success: #22c55e;
+  --bg: #f1f3f6;
+  --bg-card: #ffffff;
+  --bg-header: #1e293b;
+  --border: #d1d5dc;
+  --border-focus: #1e40af;
+  --text: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-header: #f1f5f9;
+  --accent: #1e40af;
+  --accent-light: #dbeafe;
+  --accent-dark: #1e3a8a;
+  --accent-glow: rgba(30,64,175,0.12);
+  --success: #16a34a;
   --success-light: #dcfce7;
-  --success-dark: #16a34a;
-  --warning: #f59e0b;
+  --success-dark: #15803d;
+  --warning: #d97706;
   --warning-light: #fef3c7;
-  --danger: #ef4444;
+  --danger: #dc2626;
   --danger-light: #fee2e2;
-  --purple: #8b5cf6;
+  --purple: #7c3aed;
   --purple-light: #ede9fe;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 6px;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
-  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
-  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
-  --transition-spring: 0.4s cubic-bezier(0.34,1.56,0.64,1);
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
-  background: linear-gradient(170deg, var(--bg-gradient-top) 0%, var(--bg-gradient-bottom) 100%);
+  background: var(--bg);
   min-height: 100vh;
   color: var(--text);
   line-height: 1.6;
@@ -59,243 +49,236 @@ body {
   overflow-x: hidden;
 }
 
-/* ── HEADER ── */
-.app-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e4e8f0;
-  padding: 16px 20px 14px;
+/* ══════════════════════════════════════
+   HEADER — dark charcoal slate
+   ══════════════════════════════════════ */
+.top-bar {
+  background: var(--bg-header);
+  padding: 20px 32px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
-.header-inner { max-width: 1100px; margin: 0 auto; }
-.header-top {
+.top-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
-.header-logo {
-  width: 40px; height: 40px;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(79,109,245,0.25);
-}
-.header-logo svg { width: 22px; height: 22px; }
-.header-text { flex: 1; min-width: 0; }
-.header-title {
-  font-size: 17px;
+.top-bar-left h1 {
+  font-size: 22px;
   font-weight: 800;
-  color: var(--text);
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
+  color: #ffffff;
   line-height: 1.2;
 }
-.header-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 1px;
-  line-height: 1.3;
-}
-.header-contact {
-  font-size: 11px;
-  color: var(--text-muted);
+.top-bar-left .subtitle {
+  font-size: 13px;
+  color: #94a3b8;
   margin-top: 2px;
 }
-.header-contact a {
-  color: var(--accent);
+.top-bar-left .contact {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+.top-bar-left .contact a {
+  color: #93c5fd;
   text-decoration: none;
-  font-weight: 500;
 }
-
-.deadline-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--accent-light);
-  color: var(--accent-dark);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  margin-top: 8px;
-}
-.deadline-pill svg { flex-shrink: 0; }
-
-/* Tab bar */
-.tab-bar {
+.top-bar-right {
   display: flex;
-  gap: 3px;
-  background: #e8ecf3;
-  border-radius: 12px;
-  padding: 3px;
-  margin-top: 12px;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
-.tab-btn {
-  flex: 1;
-  padding: 9px 16px;
-  border: none;
-  border-radius: 10px;
+.tab-pill {
+  padding: 9px 20px;
+  border: 1.5px solid #334155;
+  border-radius: 6px;
   font-family: var(--font);
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-muted);
+  color: #94a3b8;
   background: transparent;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
-.tab-btn.active {
-  background: var(--card);
-  color: var(--text);
-  box-shadow: var(--shadow);
+.tab-pill:hover { border-color: #60a5fa; color: #60a5fa; }
+.tab-pill.active { background: #ffffff; color: var(--bg-header); border-color: #ffffff; }
+.deadline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(239,68,68,0.15);
+  color: #fca5a5;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* ── STEP DOTS (progress) ── */
-.step-progress {
+/* ══════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════ */
+.progress-bar-wrap {
+  background: #ffffff;
+  border-bottom: 2px solid var(--border);
+  padding: 14px 32px;
+}
+.progress-bar-wrap.hidden { display: none; }
+.progress-inner {
+  max-width: 1280px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 14px;
-  padding: 0 8px;
+  gap: 16px;
 }
-.step-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #d4d9e4;
-  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  cursor: pointer;
-  position: relative;
+.progress-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
 }
-.step-dot.active {
-  width: 28px;
-  border-radius: 5px;
-  background: var(--accent);
-  box-shadow: 0 2px 8px rgba(79,109,245,0.35);
-}
-.step-dot.completed {
-  background: var(--success);
-  box-shadow: 0 1px 4px rgba(34,197,94,0.3);
-}
-.step-connector {
+.progress-track {
   flex: 1;
-  height: 2px;
-  background: #d4d9e4;
-  max-width: 24px;
-  border-radius: 1px;
-  transition: background 0.3s ease;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
 }
-.step-connector.filled { background: var(--success); }
-.step-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
-  margin-top: 8px;
-  font-weight: 500;
-  transition: color 0.3s;
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-pct {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 36px;
+  text-align: right;
 }
 
-/* ── MAIN CONTAINER ── */
-.main-wrap {
-  max-width: 1100px;
+/* ══════════════════════════════════════
+   MAIN CONTAINER
+   ══════════════════════════════════════ */
+.main {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 20px 24px 100px;
+  padding: 32px 32px 120px;
   position: relative;
 }
 
-/* ── WIZARD STEP ── */
-.wizard-step {
-  display: none;
+/* ══════════════════════════════════════
+   SECTION HEADERS
+   ══════════════════════════════════════ */
+.section-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 6px;
 }
-.wizard-step.active {
-  display: block;
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
 }
 
+/* ══════════════════════════════════════
+   FORM CARD
+   ══════════════════════════════════════ */
+.form-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* ══════════════════════════════════════
+   WIZARD STEPS
+   ══════════════════════════════════════ */
+.wizard-step { display: none; }
+.wizard-step.active { display: block; }
 @keyframes stepIn {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes stepOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-16px); }
-}
-.wizard-step.exiting {
-  display: block;
-  animation: stepOut 0.25s ease forwards;
-}
+.wizard-step.active { animation: stepIn 0.3s ease forwards; }
 
-/* ── STEP CARD ── */
-.step-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  box-shadow: var(--shadow-md);
+/* ══════════════════════════════════════
+   FIELD GRID & GROUPS
+   ══════════════════════════════════════ */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
-.step-header {
-  margin-bottom: 28px;
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.step-icon {
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 16px;
-}
-.step-icon.church { background: linear-gradient(135deg, #dbeafe, #ede9fe); }
-.step-icon.spiritual { background: linear-gradient(135deg, #dcfce7, #d1fae5); }
-.step-icon.ministry { background: linear-gradient(135deg, #fef3c7, #ffedd5); }
-.step-icon.health { background: linear-gradient(135deg, #fee2e2, #fce7f3); }
-.step-icon.connection { background: linear-gradient(135deg, #ede9fe, #e0e7ff); }
-.step-icon.review { background: linear-gradient(135deg, #d1fae5, #dcfce7); }
-.step-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-}
-.step-desc {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-top: 6px;
-  line-height: 1.5;
-}
-
-/* ── FORM FIELDS ── */
+.field-group.full { grid-column: 1 / -1; }
 .field { margin-bottom: 20px; }
 .field:last-child { margin-bottom: 0; }
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
 .field-label {
   display: block;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   margin-bottom: 7px;
-  letter-spacing: -0.1px;
 }
 .field-label .req {
   color: var(--danger);
   margin-left: 2px;
   font-weight: 700;
 }
-.field-hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 400;
-  margin-left: 4px;
+.field-label .required {
+  color: var(--danger);
+  margin-left: 2px;
+  font-weight: 700;
 }
 .field-input {
   width: 100%;
   padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
+  background: #f9fafb;
+  border: 2px solid var(--border);
+  border-radius: 6px;
   font-family: var(--font);
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text);
-  background: #fafbfd;
-  transition: all var(--transition);
+  transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   -webkit-appearance: none;
   -moz-appearance: textfield;
@@ -305,46 +288,16 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.money-input-wrap {
-  display: flex;
-  align-items: center;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: #fafbfd;
-  overflow: hidden;
-  transition: all var(--transition);
-}
-.money-input-wrap:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-glow);
-  background: var(--card);
-}
-.money-prefix {
-  padding: 12px 0 12px 16px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-muted);
-  pointer-events: none;
-  flex-shrink: 0;
-}
-.money-input {
-  border: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding-left: 8px !important;
-}
-.money-input:focus {
-  box-shadow: none !important;
-}
+input[type="number"] { -moz-appearance: textfield; }
+.field-input::placeholder { color: var(--text-muted); }
 .field-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-glow);
-  background: var(--card);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: #ffffff;
 }
 .field-input.error {
   border-color: var(--danger);
-  box-shadow: 0 0 0 4px rgba(239,68,68,0.1);
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.1);
 }
 .field-error {
   font-size: 12px;
@@ -361,23 +314,84 @@ textarea.field-input {
   line-height: 1.6;
 }
 
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+/* Number input rows */
+.number-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
+.number-row .field-input {
+  text-align: center;
+  font-weight: 800;
+  font-size: 18px;
+  max-width: 160px;
+}
+.last-month-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+.last-month-label { font-weight: 600; color: var(--text-muted); }
+.last-month-val { font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+.trend-up { color: var(--success); }
+.trend-down { color: var(--danger); }
+.trend-same { color: var(--text-muted); }
+.trend-arrow { font-size: 10px; display: inline-flex; }
 
-/* Autocomplete dropdown */
+/* Money inputs */
+.money-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: #f9fafb;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.money-input-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: #ffffff;
+}
+.money-prefix {
+  padding: 12px 0 12px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.money-input {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 8px !important;
+  text-align: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+.money-input:focus { box-shadow: none !important; }
+
+/* Autocomplete */
 .autocomplete-wrap { position: relative; }
 .autocomplete-list {
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-lg);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
   z-index: 50;
   max-height: 200px;
   overflow-y: auto;
@@ -387,6 +401,7 @@ textarea.field-input {
 .autocomplete-item {
   padding: 12px 16px;
   font-size: 14px;
+  font-weight: 500;
   color: var(--text);
   cursor: pointer;
   transition: background 0.15s;
@@ -397,100 +412,20 @@ textarea.field-input {
 .autocomplete-item:hover { background: var(--accent-light); }
 .autocomplete-item svg { flex-shrink: 0; color: var(--text-muted); }
 
-/* ── NUMBER STEPPER ── */
-.number-field {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.number-stepper {
-  display: flex;
-  align-items: center;
-  background: #f5f7fa;
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.stepper-btn {
-  width: 48px;
-  height: 52px;
-  border: none;
-  background: transparent;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--accent);
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font);
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-.stepper-btn:active {
-  background: var(--accent-light);
-  transform: scale(0.92);
-}
-.stepper-value {
-  width: 64px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text);
-  font-family: var(--font);
-  border: none;
-  background: transparent;
-  outline: none;
-  -moz-appearance: textfield;
-  padding: 0;
-}
-.stepper-value::-webkit-inner-spin-button,
-.stepper-value::-webkit-outer-spin-button { -webkit-appearance: none; }
-.stepper-divider {
-  width: 1px;
-  height: 28px;
-  background: var(--border);
-}
-.last-month {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-.last-month-label {
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-.last-month-val {
-  font-size: 15px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.trend-up { color: var(--success); }
-.trend-down { color: var(--danger); }
-.trend-same { color: var(--text-muted); }
-.trend-arrow {
-  font-size: 12px;
-  display: inline-flex;
-}
-
-/* ── TOGGLE SWITCH (iOS-style) ── */
+/* ══════════════════════════════════════
+   TOGGLE SWITCHES
+   ══════════════════════════════════════ */
 .toggle-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid #f3f4f8;
+  border-bottom: 1px solid #f0f1f4;
 }
 .toggle-row:last-child { border-bottom: none; }
 .toggle-label-text {
   font-size: 14px;
+  font-weight: 500;
   color: var(--text);
   flex: 1;
   padding-right: 16px;
@@ -523,14 +458,12 @@ textarea.field-input {
   transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: 0 1px 4px rgba(0,0,0,0.18);
 }
-.toggle-switch input:checked + .toggle-slider {
-  background: var(--accent);
-}
-.toggle-switch input:checked + .toggle-slider::before {
-  transform: translateX(22px);
-}
+.toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
 
-/* ── PILL OPTIONS ── */
+/* ══════════════════════════════════════
+   OPTION PILLS & CHECKBOX PILLS
+   ══════════════════════════════════════ */
 .option-group {
   display: flex;
   flex-wrap: wrap;
@@ -540,26 +473,23 @@ textarea.field-input {
 .option-pill {
   padding: 10px 18px;
   border: 2px solid var(--border);
-  border-radius: 28px;
+  border-radius: 6px;
   font-family: var(--font);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
-  background: var(--card);
+  background: var(--bg-card);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  transition: all 0.2s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.option-pill:active { transform: scale(0.95); }
+.option-pill:active { transform: scale(0.97); }
 .option-pill.selected {
   background: var(--accent);
   border-color: var(--accent);
   color: white;
-  box-shadow: 0 2px 8px rgba(79,109,245,0.3);
-  transform: scale(1.02);
 }
-
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
@@ -569,29 +499,30 @@ textarea.field-input {
 .checkbox-pill {
   padding: 10px 18px;
   border: 2px solid var(--border);
-  border-radius: 28px;
+  border-radius: 6px;
   font-family: var(--font);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
-  background: var(--card);
+  background: var(--bg-card);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  transition: all 0.2s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.checkbox-pill:active { transform: scale(0.95); }
+.checkbox-pill:active { transform: scale(0.97); }
 .checkbox-pill.selected {
   background: var(--accent);
   border-color: var(--accent);
   color: white;
-  box-shadow: 0 2px 8px rgba(79,109,245,0.3);
 }
 
-/* ── ALERT ── */
+/* ══════════════════════════════════════
+   ALERTS
+   ══════════════════════════════════════ */
 .alert {
   padding: 12px 16px;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   font-size: 13px;
   margin-top: 12px;
   display: none;
@@ -607,11 +538,13 @@ textarea.field-input {
 }
 .alert svg { flex-shrink: 0; margin-top: 1px; }
 
-/* ── CELEBRATION CARD ── */
+/* ══════════════════════════════════════
+   CELEBRATION CARD
+   ══════════════════════════════════════ */
 .celebration-card {
   background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius);
+  border: 2px solid #bbf7d0;
+  border-radius: 10px;
   padding: 20px;
   margin-top: 24px;
   text-align: center;
@@ -626,7 +559,7 @@ textarea.field-input {
 .celebration-emoji { font-size: 32px; margin-bottom: 8px; }
 .celebration-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--success-dark);
   margin-bottom: 4px;
 }
@@ -635,11 +568,13 @@ textarea.field-input {
   color: var(--text-secondary);
 }
 
-/* ── SPARKLINE ── */
+/* ══════════════════════════════════════
+   SPARKLINE
+   ══════════════════════════════════════ */
 .sparkline-card {
-  background: #f8fafd;
-  border: 1px solid #e6ecf4;
-  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
   padding: 16px;
   margin-top: 24px;
   display: none;
@@ -647,13 +582,15 @@ textarea.field-input {
 .sparkline-card.visible { display: block; }
 .sparkline-title {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-secondary);
   margin-bottom: 10px;
 }
 .sparkline-canvas { width: 100%; max-height: 100px; }
 
-/* ── CONDITIONAL FIELDS ── */
+/* ══════════════════════════════════════
+   CONDITIONAL FIELDS
+   ══════════════════════════════════════ */
 .conditional { display: none; overflow: hidden; }
 .conditional.visible {
   display: block;
@@ -664,34 +601,37 @@ textarea.field-input {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── NAV BUTTONS (bottom bar) ── */
-.nav-bar {
+/* ══════════════════════════════════════
+   BOTTOM NAV
+   ══════════════════════════════════════ */
+.bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background: #ffffff;
-  border-top: 1px solid #e4e8f0;
-  padding: 12px 16px;
-  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  border-top: 2px solid var(--border);
+  padding: 14px 32px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
   z-index: 100;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 .nav-inner {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  justify-content: flex-end;
 }
-.nav-btn {
-  flex: 1;
-  padding: 14px 24px;
+.btn {
+  padding: 14px 36px;
   border: none;
-  border-radius: 14px;
+  border-radius: 6px;
   font-family: var(--font);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
@@ -700,42 +640,31 @@ textarea.field-input {
   gap: 8px;
   -webkit-tap-highlight-color: transparent;
 }
-.nav-btn:active { transform: scale(0.97); }
-.nav-btn.secondary {
-  background: #f0f2f7;
+.btn:active { transform: scale(0.97); }
+.btn-secondary {
+  background: #f1f5f9;
   color: var(--text-secondary);
-  flex: 0 0 auto;
-  padding: 14px 20px;
+  border: 2px solid var(--border);
 }
-.nav-btn.secondary:hover { background: #e5e8ef; }
-.nav-btn.primary {
-  background: var(--accent);
+.btn-secondary:hover { border-color: var(--text-secondary); }
+.btn-primary { background: var(--accent); color: #ffffff; }
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-submit {
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
   color: white;
-  box-shadow: 0 4px 14px rgba(79,109,245,0.35);
 }
-.nav-btn.primary:hover {
-  background: var(--accent-dark);
-  box-shadow: 0 6px 20px rgba(79,109,245,0.45);
-}
-.nav-btn.submit-final {
-  background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
-  color: white;
-  box-shadow: 0 4px 14px rgba(34,197,94,0.35);
-}
-.nav-btn.submit-final:hover {
-  box-shadow: 0 6px 20px rgba(34,197,94,0.45);
-}
-.nav-btn:disabled {
+.btn-submit:hover { opacity: 0.9; }
+.btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none !important;
 }
-.nav-btn svg { flex-shrink: 0; }
+.btn svg { flex-shrink: 0; }
 
-/* ── REVIEW STEP ── */
-.review-section {
-  margin-bottom: 20px;
-}
+/* ══════════════════════════════════════
+   REVIEW STEP
+   ══════════════════════════════════════ */
+.review-section { margin-bottom: 20px; }
 .review-section-header {
   display: flex;
   align-items: center;
@@ -743,22 +672,22 @@ textarea.field-input {
   margin-bottom: 10px;
 }
 .review-section-title {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  color: var(--accent);
 }
 .review-edit-btn {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
   background: none;
   border: none;
   cursor: pointer;
   font-family: var(--font);
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: background 0.15s;
 }
 .review-edit-btn:hover { background: var(--accent-light); }
@@ -768,22 +697,23 @@ textarea.field-input {
   gap: 10px;
 }
 .review-item {
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
   padding: 12px 14px;
 }
 .review-item.full { grid-column: 1 / -1; }
 .review-item-label {
   font-size: 11px;
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 3px;
 }
 .review-item-value {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 .review-item-value.empty {
@@ -792,12 +722,14 @@ textarea.field-input {
   font-style: italic;
 }
 .review-divider {
-  height: 1px;
+  height: 2px;
   background: var(--border);
   margin: 20px 0;
 }
 
-/* ── SUCCESS OVERLAY ── */
+/* ══════════════════════════════════════
+   SUCCESS OVERLAY
+   ══════════════════════════════════════ */
 .success-overlay {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -837,7 +769,7 @@ textarea.field-input {
 }
 .success-title {
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 900;
   color: var(--text);
   margin-bottom: 8px;
   letter-spacing: -0.5px;
@@ -861,12 +793,12 @@ textarea.field-input {
   gap: 8px;
   padding: 14px 24px;
   border: 2px solid var(--border);
-  border-radius: 14px;
-  background: var(--card);
+  border-radius: 6px;
+  background: var(--bg-card);
   color: var(--text);
   font-family: var(--font);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   text-decoration: none;
@@ -882,7 +814,9 @@ textarea.field-input {
 }
 .btn-success-action svg { flex-shrink: 0; }
 
-/* ── CONFETTI ── */
+/* ══════════════════════════════════════
+   CONFETTI
+   ══════════════════════════════════════ */
 .confetti-container {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -903,42 +837,45 @@ textarea.field-input {
   100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
 }
 
-/* ── HISTORY VIEW ── */
+/* ══════════════════════════════════════
+   HISTORY VIEW
+   ══════════════════════════════════════ */
 .history-view { display: none; }
 .history-view.active { display: block; }
 .form-view.active { display: block; }
 .form-view { display: none; }
 
 .history-church-name {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 900;
   color: var(--text);
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
 }
 .history-meta {
   font-size: 13px;
   color: var(--text-muted);
   margin-top: 2px;
   margin-bottom: 16px;
+  font-weight: 500;
 }
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 16px;
 }
 .stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
   padding: 16px 12px;
   text-align: center;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .stat-value {
   font-size: 28px;
-  font-weight: 800;
-  color: var(--text);
+  font-weight: 900;
+  color: var(--accent);
   letter-spacing: -0.5px;
 }
 .stat-label {
@@ -947,32 +884,30 @@ textarea.field-input {
   margin-top: 4px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .chart-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .chart-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
   margin-bottom: 14px;
   letter-spacing: -0.2px;
 }
-
-/* History cards */
 .history-entry {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
   padding: 18px 20px;
   margin-bottom: 10px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -984,7 +919,7 @@ textarea.field-input {
 }
 .history-entry-month {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   color: var(--accent);
   letter-spacing: 0.5px;
@@ -999,13 +934,10 @@ textarea.field-input {
   gap: 16px;
   flex-wrap: wrap;
 }
-.history-entry-stat {
-  display: flex;
-  flex-direction: column;
-}
+.history-entry-stat { display: flex; flex-direction: column; }
 .history-entry-stat-val {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
 }
 .history-entry-stat-label {
@@ -1013,172 +945,149 @@ textarea.field-input {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.3px;
+  font-weight: 600;
 }
-
 .export-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
   border: 2px solid var(--border);
-  border-radius: 12px;
-  background: var(--card);
+  border-radius: 6px;
+  background: var(--bg-card);
   color: var(--text-secondary);
   font-family: var(--font);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 16px;
 }
 .export-btn:hover { border-color: var(--accent); color: var(--accent); }
-
+.church-select-wrap { margin-bottom: 20px; }
+.church-select-wrap select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg-card);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
 .empty-state {
   text-align: center;
   padding: 60px 20px;
   color: var(--text-muted);
 }
 .empty-state svg { margin-bottom: 16px; opacity: 0.4; }
-.empty-state p { font-size: 15px; }
+.empty-state p { font-size: 15px; font-weight: 500; }
 .empty-state .sub { font-size: 13px; margin-top: 4px; opacity: 0.7; }
 
-/* ── MISC ── */
-.hidden { display: none !important; }
+/* ══════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════ */
 .divider {
-  height: 1px;
-  background: #f0f2f7;
+  height: 2px;
+  background: #f0f1f5;
   margin: 20px 0;
 }
 
-/* ── CHURCH SELECT (history) ── */
-.church-select-wrap {
-  margin-bottom: 20px;
-}
-.church-select-wrap select {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-family: var(--font);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text);
-  background: var(--card);
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238896ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 40px;
-}
+/* ══════════════════════════════════════
+   MISC
+   ══════════════════════════════════════ */
+.hidden { display: none !important; }
 
-/* ── DESKTOP ── */
+/* ══════════════════════════════════════
+   DESKTOP
+   ══════════════════════════════════════ */
 @media (min-width: 768px) {
-  .main-wrap { padding: 32px 40px 120px; }
-  .step-card { padding: 48px 56px; }
-  .step-title { font-size: 30px; }
-  .step-subtitle { font-size: 15px; }
-  .field-label { font-size: 14px; }
-  .field-input, .field-select, .field-textarea { font-size: 16px; padding: 14px 18px; }
-  .field-group { margin-bottom: 20px; }
-  .field-row { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-card { padding: 40px 48px; }
+  .section-title { font-size: 30px; }
   .review-grid { grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .nav-btn { padding: 16px 40px; font-size: 16px; }
-  .bottom-nav { padding: 16px 32px; }
-  .progress-steps { gap: 6px; }
-  .header-title { font-size: 20px; }
-  .header-logo { width: 48px; height: 48px; border-radius: 14px; }
-  .header-logo svg { width: 26px; height: 26px; }
-  .tab-bar { gap: 4px; }
-  .tab-btn { padding: 10px 20px; font-size: 14px; }
+  .number-row .field-input { max-width: 180px; }
 }
 
-/* Mobile adjustments */
-@media (max-width: 480px) {
-  .app-header { padding: 12px 14px 12px; }
-  .main-wrap { padding: 16px 12px 100px; }
-  .step-card { padding: 24px 18px; }
-  .step-title { font-size: 20px; }
-  .stepper-btn { width: 44px; height: 48px; font-size: 20px; }
-  .stepper-value { width: 56px; font-size: 22px; }
+/* ══════════════════════════════════════
+   MOBILE
+   ══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .top-bar { padding: 16px 16px; }
+  .top-bar-inner { flex-direction: column; align-items: flex-start; }
+  .top-bar-right { width: 100%; flex-wrap: wrap; }
+  .progress-bar-wrap { padding: 12px 16px; }
+  .main { padding: 20px 16px 120px; }
+  .form-card { padding: 24px 18px; }
+  .section-title { font-size: 22px; }
+  .bottom-nav { padding: 12px 16px; }
   .review-grid { grid-template-columns: 1fr; }
-  .stats-grid { gap: 6px; }
-  .stat-value { font-size: 24px; }
-  .stat-card { padding: 12px 8px; }
-  .field-row { gap: 8px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .number-row { flex-direction: column; align-items: stretch; }
+  .number-row .field-input { max-width: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- ════ HEADER ════ -->
-<header class="app-header">
-  <div class="header-inner">
-    <div class="header-top">
-      <div class="header-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-7 9 7v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>
-      </div>
-      <div class="header-text">
-        <div class="header-title">DA Church Monthly Report</div>
-        <div class="header-subtitle">Metro East Section &middot; North Texas District</div>
-        <div class="header-contact">
-          Presbyter: Lane Hastie &middot;
-          <a href="tel:9729626574">972-962-6574</a>
-        </div>
-      </div>
+<!-- ════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════ -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <h1>DA Church Monthly Report</h1>
+      <div class="subtitle">Metro East Section &mdash; North Texas District AG</div>
+      <div class="contact">Presbyter: Lane Hastie &middot; <a href="tel:9729626574">972-962-6574</a></div>
     </div>
-
-    <div class="deadline-pill">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Due by the 10th of each month
-    </div>
-
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('form')">New Report</button>
-      <button class="tab-btn" onclick="switchTab('history')">History</button>
-      <a href="DA_Admin_Dashboard.html" class="tab-btn" style="text-decoration:none; color:inherit;">Admin Dashboard</a>
-    </div>
-
-    <div id="stepProgressWrap">
-      <div class="step-progress" id="stepProgress">
-        <div class="step-dot active" data-step="0" onclick="goToStep(0)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="1" onclick="goToStep(1)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="2" onclick="goToStep(2)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="3" onclick="goToStep(3)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="4" onclick="goToStep(4)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="5" onclick="goToStep(5)"></div>
-        <div class="step-connector"></div>
-        <div class="step-dot" data-step="6" onclick="goToStep(6)"></div>
+    <div class="top-bar-right">
+      <button class="tab-pill active" id="tabForm" onclick="switchTab('form')">New Report</button>
+      <button class="tab-pill" id="tabHistory" onclick="switchTab('history')">History</button>
+      <a href="DA_Admin_Dashboard.html" class="tab-pill">Admin Dashboard</a>
+      <div class="deadline-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Due by the 10th
       </div>
-      <div class="step-label" id="stepLabel">Step 1 of 6 &mdash; Church & Pastor</div>
     </div>
   </div>
-</header>
+</div>
 
-<!-- ════ FORM VIEW ════ -->
+<!-- ════════════════════════════════════════
+     PROGRESS BAR
+     ════════════════════════════════════════ -->
+<div class="progress-bar-wrap" id="progressBarWrap">
+  <div class="progress-inner">
+    <div class="progress-label" id="progressLabel">Step 1 of 7 &mdash; Church & Pastor</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">14%</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     FORM VIEW
+     ════════════════════════════════════════ -->
 <div class="form-view active" id="formView">
-  <div class="main-wrap">
+  <div class="main">
 
     <!-- ── STEP 0: Church & Pastor ── -->
     <div class="wizard-step active" data-step="0">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon church">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4f6df5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-7 9 7v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>
-          </div>
-          <div class="step-title">Church & Pastor</div>
-          <div class="step-desc">Start typing to auto-fill from a previous report.</div>
-        </div>
+      <div class="section-label">Step 1</div>
+      <div class="section-title">Church & Pastor</div>
+      <div class="section-desc">Start typing to auto-fill from a previous report.</div>
 
-        <div class="field">
-          <label class="field-label">Church Name <span class="req">*</span></label>
+      <div class="form-card">
+        <div class="field-group full" style="margin-bottom:20px;">
+          <div class="field-label">Church Name <span class="req">*</span></div>
           <div class="autocomplete-wrap">
             <input type="text" class="field-input" id="churchName" autocomplete="off" placeholder="e.g. First Assembly of God" required>
             <div class="autocomplete-list" id="churchDropdown"></div>
@@ -1224,26 +1133,28 @@ textarea.field-input {
           </label>
         </div>
 
-        <div id="pastorFields">
-          <div class="field-row">
-            <div class="field">
-              <label class="field-label">Pastor First Name <span class="req">*</span></label>
+        <div id="pastorFields" style="margin-top:16px;">
+          <div class="field-grid">
+            <div class="field-group">
+              <div class="field-label">Pastor First Name <span class="req">*</span></div>
               <input type="text" class="field-input" id="pastorFirst" required>
             </div>
-            <div class="field">
-              <label class="field-label">Pastor Last Name <span class="req">*</span></label>
+            <div class="field-group">
+              <div class="field-label">Pastor Last Name <span class="req">*</span></div>
               <input type="text" class="field-input" id="pastorLast" required>
             </div>
-          </div>
-          <div class="field">
-            <label class="field-label">Pastor Email <span class="req">*</span></label>
-            <input type="email" class="field-input" id="pastorEmail" required>
-          </div>
-          <div class="field">
-            <label class="field-label">Pastor Phone <span class="req">*</span></label>
-            <input type="tel" class="field-input" id="pastorPhone" required>
+            <div class="field-group">
+              <div class="field-label">Pastor Email <span class="req">*</span></div>
+              <input type="email" class="field-input" id="pastorEmail" required>
+            </div>
+            <div class="field-group">
+              <div class="field-label">Pastor Phone <span class="req">*</span></div>
+              <input type="tel" class="field-input" id="pastorPhone" required>
+            </div>
           </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="toggle-row" style="border-bottom:none;">
           <span class="toggle-label-text">Someone other than the pastor is filling this out?</span>
@@ -1253,13 +1164,15 @@ textarea.field-input {
           </label>
         </div>
         <div class="conditional" id="fillerFields">
-          <div class="field" style="margin-top:12px">
-            <label class="field-label">Your Name</label>
-            <input type="text" class="field-input" id="fillerName">
-          </div>
-          <div class="field">
-            <label class="field-label">Your Email</label>
-            <input type="email" class="field-input" id="fillerEmail">
+          <div class="field-grid" style="margin-top:12px;">
+            <div class="field-group">
+              <div class="field-label">Your Name</div>
+              <input type="text" class="field-input" id="fillerName">
+            </div>
+            <div class="field-group">
+              <div class="field-label">Your Email</div>
+              <input type="email" class="field-input" id="fillerEmail">
+            </div>
           </div>
         </div>
       </div>
@@ -1267,19 +1180,15 @@ textarea.field-input {
 
     <!-- ── STEP 1: Attendance & Spiritual Life ── -->
     <div class="wizard-step" data-step="1">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon spiritual">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </div>
-          <div class="step-title">Attendance & Spiritual Life</div>
-          <div class="step-desc">The heart of your report. Use +/- or type directly.</div>
-        </div>
+      <div class="section-label">Step 2</div>
+      <div class="section-title">Attendance & Spiritual Life</div>
+      <div class="section-desc">The heart of your report. Enter your numbers below.</div>
 
+      <div class="form-card">
         <div class="field">
           <label class="field-label">Sunday AM Adults <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="attendAdults" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="attendAdults" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_attendAdults">No prior data</span>
           </div>
         </div>
@@ -1287,7 +1196,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Sunday AM Under 18 <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="attendMinors" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="attendMinors" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_attendMinors">No prior data</span>
           </div>
         </div>
@@ -1295,7 +1204,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Mid-Week Attendance <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="attendMidweek" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="attendMidweek" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_attendMidweek">No prior data</span>
           </div>
         </div>
@@ -1305,7 +1214,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Salvations <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="salvations" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="salvations" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_salvations">No prior data</span>
           </div>
         </div>
@@ -1313,7 +1222,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Water Baptisms <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="waterBaptisms" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="waterBaptisms" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_waterBaptisms">No prior data</span>
           </div>
         </div>
@@ -1321,7 +1230,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Holy Spirit Baptisms <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="spiritBaptisms" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="spiritBaptisms" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_spiritBaptisms">No prior data</span>
           </div>
         </div>
@@ -1329,7 +1238,7 @@ textarea.field-input {
         <div class="field">
           <label class="field-label">Communion &mdash; Times Served <span class="required">*</span></label>
           <div class="number-row">
-            <input type="number" class="field-input spiritual-required" id="communionCount" min="0" placeholder="Enter number" oninput="onNumberInput()">
+            <input type="number" class="field-input spiritual-required" id="communionCount" min="0" placeholder="0" oninput="onNumberInput()">
             <span class="last-month-badge" id="lm_communionCount">No prior data</span>
           </div>
         </div>
@@ -1351,64 +1260,55 @@ textarea.field-input {
 
     <!-- ── STEP 2: Financials ── -->
     <div class="wizard-step" data-step="2">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon" style="background: linear-gradient(135deg, #d1fae5, #dcfce7);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <div class="step-title">Financials</div>
-          <div class="step-desc">Monthly financial snapshot for your church.</div>
-        </div>
+      <div class="section-label">Step 3</div>
+      <div class="section-title">Financials</div>
+      <div class="section-desc">Monthly financial snapshot for your church.</div>
 
-        <div class="field">
-          <label class="field-label">Total Income This Month</label>
-          <div class="money-input-wrap">
-            <span class="money-prefix">$</span>
-            <input type="number" class="field-input money-input" id="totalIncome" min="0" step="0.01" placeholder="0.00">
+      <div class="form-card">
+        <div class="field-grid">
+          <div class="field-group">
+            <div class="field-label">Total Income This Month</div>
+            <div class="money-input-wrap">
+              <span class="money-prefix">$</span>
+              <input type="number" class="field-input money-input" id="totalIncome" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="last-month-badge" id="lm_totalIncome" style="margin-top:6px;"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
           </div>
-          <div class="last-month-badge" id="lm_totalIncome"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Total Expenses This Month</label>
-          <div class="money-input-wrap">
-            <span class="money-prefix">$</span>
-            <input type="number" class="field-input money-input" id="totalExpenses" min="0" step="0.01" placeholder="0.00">
+          <div class="field-group">
+            <div class="field-label">Total Expenses This Month</div>
+            <div class="money-input-wrap">
+              <span class="money-prefix">$</span>
+              <input type="number" class="field-input money-input" id="totalExpenses" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="last-month-badge" id="lm_totalExpenses" style="margin-top:6px;"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
           </div>
-          <div class="last-month-badge" id="lm_totalExpenses"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Checking Account Balance</label>
-          <div class="money-input-wrap">
-            <span class="money-prefix">$</span>
-            <input type="number" class="field-input money-input" id="checkingBalance" min="0" step="0.01" placeholder="0.00">
+          <div class="field-group">
+            <div class="field-label">Checking Account Balance</div>
+            <div class="money-input-wrap">
+              <span class="money-prefix">$</span>
+              <input type="number" class="field-input money-input" id="checkingBalance" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="last-month-badge" id="lm_checkingBalance" style="margin-top:6px;"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
           </div>
-          <div class="last-month-badge" id="lm_checkingBalance"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Savings Account Balance</label>
-          <div class="money-input-wrap">
-            <span class="money-prefix">$</span>
-            <input type="number" class="field-input money-input" id="savingsBalance" min="0" step="0.01" placeholder="0.00">
+          <div class="field-group">
+            <div class="field-label">Savings Account Balance</div>
+            <div class="money-input-wrap">
+              <span class="money-prefix">$</span>
+              <input type="number" class="field-input money-input" id="savingsBalance" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="last-month-badge" id="lm_savingsBalance" style="margin-top:6px;"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
           </div>
-          <div class="last-month-badge" id="lm_savingsBalance"><span class="last-month-label">Last month</span><span class="last-month-val trend-same">&mdash;</span></div>
         </div>
       </div>
     </div>
 
     <!-- ── STEP 3: Ministry & Events ── -->
     <div class="wizard-step" data-step="3">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon ministry">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div class="step-title">Ministry & Events</div>
-          <div class="step-desc">Share what's been happening at your church.</div>
-        </div>
+      <div class="section-label">Step 4</div>
+      <div class="section-title">Ministry & Events</div>
+      <div class="section-desc">Share what's been happening at your church.</div>
 
+      <div class="form-card">
         <div class="field">
           <label class="field-label">Special Speakers / Events & Honorarium Amounts</label>
           <textarea class="field-input" id="specialEvents" placeholder="e.g. Guest speaker John Smith &#8212; $500 honorarium&#10;Youth revival, 3 nights"></textarea>
@@ -1423,15 +1323,11 @@ textarea.field-input {
 
     <!-- ── STEP 4: Health Check ── -->
     <div class="wizard-step" data-step="4">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon health">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
-          </div>
-          <div class="step-title">Quick Health Check</div>
-          <div class="step-desc">A few items to keep your church protected and compliant.</div>
-        </div>
+      <div class="section-label">Step 5</div>
+      <div class="section-title">Quick Health Check</div>
+      <div class="section-desc">A few items to keep your church protected and compliant.</div>
 
+      <div class="form-card">
         <div class="field">
           <label class="field-label">Are you using Ministry Safe for volunteer screening?</label>
           <div class="option-group" data-name="ministrySafe">
@@ -1446,6 +1342,8 @@ textarea.field-input {
           </div>
         </div>
 
+        <div class="divider"></div>
+
         <div class="field">
           <label class="field-label">Is your church using Aplos for financial records?</label>
           <div class="option-group" data-name="aplos">
@@ -1458,6 +1356,8 @@ textarea.field-input {
             <span>Contact the district office for help getting set up with Aplos.</span>
           </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="field">
           <label class="field-label">Any insurance issues?</label>
@@ -1478,17 +1378,13 @@ textarea.field-input {
       </div>
     </div>
 
-    <!-- ── STEP 5: Connection ── -->
+    <!-- ── STEP 5: Connection & Prayer ── -->
     <div class="wizard-step" data-step="5">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon connection">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div class="step-title">Connection & Prayer</div>
-          <div class="step-desc">Let us know how we can support you.</div>
-        </div>
+      <div class="section-label">Step 6</div>
+      <div class="section-title">Connection & Prayer</div>
+      <div class="section-desc">Let us know how we can support you.</div>
 
+      <div class="form-card">
         <div class="field">
           <label class="field-label">Are you connecting with your section?</label>
           <div class="option-group" data-name="sectionConnection">
@@ -1498,6 +1394,8 @@ textarea.field-input {
           </div>
         </div>
 
+        <div class="divider"></div>
+
         <div class="field">
           <label class="field-label">Would you like your presbyter to call you?</label>
           <div class="option-group" data-name="presbyCall">
@@ -1505,6 +1403,8 @@ textarea.field-input {
             <div class="option-pill" onclick="selectOption(this,'presbyCall')">No</div>
           </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="field">
           <label class="field-label">Additional comments, testimonies, or prayer needs</label>
@@ -1515,14 +1415,11 @@ textarea.field-input {
 
     <!-- ── STEP 6: Review & Submit ── -->
     <div class="wizard-step" data-step="6">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-icon review">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          </div>
-          <div class="step-title">Review & Submit</div>
-          <div class="step-desc">Everything looks good? Hit submit below.</div>
-        </div>
+      <div class="section-label">Step 7</div>
+      <div class="section-title">Review & Submit</div>
+      <div class="section-desc">Everything looks good? Hit submit below.</div>
+
+      <div class="form-card">
         <div id="reviewContent"></div>
       </div>
     </div>
@@ -1530,26 +1427,32 @@ textarea.field-input {
   </div>
 </div>
 
-<!-- ════ BOTTOM NAV ════ -->
-<div class="nav-bar" id="navBar">
+<!-- ════════════════════════════════════════
+     BOTTOM NAV
+     ════════════════════════════════════════ -->
+<div class="bottom-nav" id="navBar">
   <div class="nav-inner">
-    <button class="nav-btn secondary" id="prevBtn" onclick="prevStep()" style="display:none;">
+    <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()" style="display:none;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back
     </button>
-    <button class="nav-btn primary" id="nextBtn" onclick="nextStep()">
-      Continue
+    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+      Next Step
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
 </div>
 
-<!-- ════ HISTORY VIEW ════ -->
+<!-- ════════════════════════════════════════
+     HISTORY VIEW
+     ════════════════════════════════════════ -->
 <div class="history-view" id="historyView">
-  <div class="main-wrap" id="historyContent"></div>
+  <div class="main" id="historyContent"></div>
 </div>
 
-<!-- ════ SUCCESS OVERLAY ════ -->
+<!-- ════════════════════════════════════════
+     SUCCESS OVERLAY
+     ════════════════════════════════════════ -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-box">
     <div class="success-icon-wrap">
@@ -1617,21 +1520,28 @@ var stepNames = [
   'Review & Submit'
 ];
 
+function updateProgressBar() {
+  var pct = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressLabel').innerHTML =
+    'Step ' + (currentStep + 1) + ' of ' + TOTAL_STEPS + ' &mdash; ' + stepNames[currentStep];
+}
+
 function goToStep(step, direction) {
   if (step < 0 || step >= TOTAL_STEPS) return;
   if (step === currentStep) return;
 
   var stepEls = document.querySelectorAll('.wizard-step');
 
-  // Hide all steps first
+  // Hide all steps
   for (var i = 0; i < stepEls.length; i++) {
     stepEls[i].classList.remove('active');
-    stepEls[i].classList.remove('exiting');
   }
 
   currentStep = step;
 
-  // Show the target step
+  // Show target step
   stepEls[currentStep].classList.add('active');
   window.scrollTo(0, 0);
 
@@ -1680,21 +1590,8 @@ function prevStep() {
 }
 
 function updateStepUI() {
-  // Dots
-  var dots = document.querySelectorAll('.step-dot');
-  var connectors = document.querySelectorAll('.step-connector');
-  dots.forEach(function(dot, i) {
-    dot.classList.remove('active', 'completed');
-    if (i === currentStep) dot.classList.add('active');
-    else if (i < currentStep) dot.classList.add('completed');
-  });
-  connectors.forEach(function(c, i) {
-    c.classList.toggle('filled', i < currentStep);
-  });
-
-  // Label
-  document.getElementById('stepLabel').innerHTML =
-    'Step ' + (currentStep + 1) + ' of ' + TOTAL_STEPS + ' &mdash; ' + stepNames[currentStep];
+  // Progress bar
+  updateProgressBar();
 
   // Buttons
   var prevBtn = document.getElementById('prevBtn');
@@ -1702,11 +1599,11 @@ function updateStepUI() {
   prevBtn.style.display = currentStep === 0 ? 'none' : 'flex';
 
   if (currentStep === TOTAL_STEPS - 1) {
-    nextBtn.className = 'nav-btn submit-final';
+    nextBtn.className = 'btn btn-submit';
     nextBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Submit Report';
   } else {
-    nextBtn.className = 'nav-btn primary';
-    nextBtn.innerHTML = 'Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+    nextBtn.className = 'btn btn-primary';
+    nextBtn.innerHTML = 'Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
   }
 
   // Update celebration card when on step 1
@@ -1744,41 +1641,30 @@ function validateStep0() {
 //  TAB SWITCHING
 // ════════════════════════════════════════
 function switchTab(tab) {
-  var tabs = document.querySelectorAll('.tab-btn');
-  tabs.forEach(function(t) { t.classList.remove('active'); });
+  var tabForm = document.getElementById('tabForm');
+  var tabHistory = document.getElementById('tabHistory');
+  tabForm.classList.remove('active');
+  tabHistory.classList.remove('active');
 
   if (tab === 'form') {
-    tabs[0].classList.add('active');
+    tabForm.classList.add('active');
     document.getElementById('formView').classList.add('active');
     document.getElementById('historyView').classList.remove('active');
-    document.getElementById('stepProgressWrap').style.display = '';
+    document.getElementById('progressBarWrap').classList.remove('hidden');
     document.getElementById('navBar').style.display = '';
   } else {
-    tabs[1].classList.add('active');
+    tabHistory.classList.add('active');
     document.getElementById('formView').classList.remove('active');
     document.getElementById('historyView').classList.add('active');
-    document.getElementById('stepProgressWrap').style.display = 'none';
+    document.getElementById('progressBarWrap').classList.add('hidden');
     document.getElementById('navBar').style.display = 'none';
     renderHistory();
   }
 }
 
 // ════════════════════════════════════════
-//  NUMBER STEPPERS
+//  NUMBER INPUT HANDLER
 // ════════════════════════════════════════
-function stepValue(id, delta) {
-  var el = document.getElementById(id);
-  var val = parseInt(el.value) || 0;
-  val = Math.max(0, val + delta);
-  el.value = val;
-  onNumberInput();
-
-  // Haptic-style scale animation on the stepper
-  var stepper = el.closest('.number-stepper');
-  stepper.style.transform = 'scale(0.97)';
-  setTimeout(function() { stepper.style.transform = ''; }, 120);
-}
-
 function onNumberInput() {
   updateCelebration();
 }
@@ -1872,6 +1758,9 @@ function updateCelebration() {
     document.querySelectorAll('.field-input').forEach(function(inp) {
       inp.addEventListener('input', function() { this.classList.remove('error'); });
     });
+
+    // Initialize progress bar
+    updateProgressBar();
   });
 })();
 
@@ -1950,12 +1839,12 @@ function updateSparkline(churchName) {
       labels: labels,
       datasets: [{
         data: totals,
-        borderColor: '#4f6df5',
-        backgroundColor: 'rgba(79,109,245,0.08)',
+        borderColor: '#1e40af',
+        backgroundColor: 'rgba(30,64,175,0.08)',
         fill: true,
         tension: 0.4,
         pointRadius: 4,
-        pointBackgroundColor: '#4f6df5',
+        pointBackgroundColor: '#1e40af',
         borderWidth: 2.5
       }]
     },
@@ -1964,8 +1853,8 @@ function updateSparkline(churchName) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { display: true, grid: { display: false }, ticks: { font: { size: 10, family: 'Inter' }, color: '#8896ab' } },
-        y: { display: true, grid: { color: '#f0f2f5' }, ticks: { font: { size: 10, family: 'Inter' }, color: '#8896ab' }, beginAtZero: true }
+        x: { display: true, grid: { display: false }, ticks: { font: { size: 10, family: 'Inter', weight: 600 }, color: '#9ca3af' } },
+        y: { display: true, grid: { color: '#f0f1f5' }, ticks: { font: { size: 10, family: 'Inter', weight: 600 }, color: '#9ca3af' }, beginAtZero: true }
       }
     }
   });
@@ -1980,14 +1869,12 @@ function toggleConditional(id, show) {
 
 function toggleNewPastor(isNew) {
   if (isNew) {
-    // Clear pastor fields so they can enter new info
     document.getElementById('pastorFirst').value = '';
     document.getElementById('pastorLast').value = '';
     document.getElementById('pastorEmail').value = '';
     document.getElementById('pastorPhone').value = '';
     document.getElementById('pastorFirst').focus();
   } else {
-    // Re-fill from last submission
     var name = document.getElementById('churchName').value.trim();
     var last = getLastSubmission(name);
     if (last) {
@@ -2090,17 +1977,20 @@ function buildReview() {
 
   html += '<div class="review-divider"></div>';
 
-  // Ministry
-  html += '<div class="review-section">';
   // Financials
+  html += '<div class="review-section">';
   html += '<div class="review-section-header"><span class="review-section-title">Financials</span><button class="review-edit-btn" onclick="goToStep(2)">Edit</button></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Total Income', '$' + formatNum(e.totalIncome));
   html += reviewItem('Total Expenses', '$' + formatNum(e.totalExpenses));
   html += reviewItem('Checking Balance', '$' + formatNum(e.checkingBalance));
   html += reviewItem('Savings Balance', '$' + formatNum(e.savingsBalance));
-  html += '</div>';
+  html += '</div></div>';
 
+  html += '<div class="review-divider"></div>';
+
+  // Ministry
+  html += '<div class="review-section">';
   html += '<div class="review-section-header"><span class="review-section-title">Ministry & Events</span><button class="review-edit-btn" onclick="goToStep(3)">Edit</button></div>';
   html += '<div class="review-grid">';
   html += reviewItem('Events', e.specialEvents || '(none)', true);
@@ -2301,7 +2191,7 @@ function closeSuccess() {
 function launchConfetti() {
   var container = document.getElementById('confettiContainer');
   container.innerHTML = '';
-  var colors = ['#4f6df5', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+  var colors = ['#1e40af', '#16a34a', '#d97706', '#dc2626', '#7c3aed', '#ec4899', '#0284c7'];
   var shapes = ['circle', 'square', 'triangle'];
 
   for (var i = 0; i < 60; i++) {
@@ -2443,34 +2333,34 @@ function renderHistory() {
           {
             label: 'Adults',
             data: chronoEntries.map(function(e) { return e.attendAdults || 0; }),
-            borderColor: '#4f6df5',
-            backgroundColor: 'rgba(79,109,245,0.06)',
-            fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#4f6df5', borderWidth: 2.5
+            borderColor: '#1e40af',
+            backgroundColor: 'rgba(30,64,175,0.06)',
+            fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#1e40af', borderWidth: 2.5
           },
           {
             label: 'Under 18',
             data: chronoEntries.map(function(e) { return e.attendMinors || 0; }),
-            borderColor: '#22c55e',
-            backgroundColor: 'rgba(34,197,94,0.06)',
-            fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#22c55e', borderWidth: 2.5
+            borderColor: '#16a34a',
+            backgroundColor: 'rgba(22,163,74,0.06)',
+            fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#16a34a', borderWidth: 2.5
           },
           {
             label: 'Total',
             data: chronoEntries.map(function(e) { return (e.attendAdults || 0) + (e.attendMinors || 0); }),
-            borderColor: '#8b5cf6',
+            borderColor: '#7c3aed',
             backgroundColor: 'transparent',
-            borderDash: [5, 4], tension: 0.35, pointRadius: 3, pointBackgroundColor: '#8b5cf6', borderWidth: 2
+            borderDash: [5, 4], tension: 0.35, pointRadius: 3, pointBackgroundColor: '#7c3aed', borderWidth: 2
           }
         ]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
+          legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter', weight: 600 }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8896ab' } },
-          y: { grid: { color: '#f0f2f5' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8896ab' }, beginAtZero: true }
+          x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' } },
+          y: { grid: { color: '#f0f1f5' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' }, beginAtZero: true }
         }
       }
     });
@@ -2482,18 +2372,18 @@ function renderHistory() {
       data: {
         labels: labels,
         datasets: [
-          { label: 'Salvations', data: chronoEntries.map(function(e) { return e.salvations || 0; }), backgroundColor: 'rgba(79,109,245,0.7)', borderRadius: 6, barPercentage: 0.6 },
-          { label: 'Baptisms', data: chronoEntries.map(function(e) { return e.waterBaptisms || 0; }), backgroundColor: 'rgba(34,197,94,0.7)', borderRadius: 6, barPercentage: 0.6 }
+          { label: 'Salvations', data: chronoEntries.map(function(e) { return e.salvations || 0; }), backgroundColor: 'rgba(30,64,175,0.7)', borderRadius: 6, barPercentage: 0.6 },
+          { label: 'Baptisms', data: chronoEntries.map(function(e) { return e.waterBaptisms || 0; }), backgroundColor: 'rgba(22,163,74,0.7)', borderRadius: 6, barPercentage: 0.6 }
         ]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
+          legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter', weight: 600 }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8896ab' } },
-          y: { grid: { color: '#f0f2f5' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8896ab', stepSize: 1 }, beginAtZero: true }
+          x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af' } },
+          y: { grid: { color: '#f0f1f5' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#9ca3af', stepSize: 1 }, beginAtZero: true }
         }
       }
     });
