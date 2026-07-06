@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA Churches Dashboard — Metro East Section</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --border: #e5e8ee;
+  --text: #1a1f2e;
+  --text-secondary: #55607a;
+  --text-muted: #8d96a8;
+  --primary: #3b82f6;
+  --primary-light: #eff6ff;
+  --primary-dark: #2563eb;
+  --success: #22c55e;
+  --success-light: #f0fdf4;
+  --warning: #f59e0b;
+  --warning-light: #fffbeb;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  --purple: #8b5cf6;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.07);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Bar ── */
+.top-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.top-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.top-bar-left h1 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--text);
+}
+.top-bar-left .subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.top-bar-left .contact {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.top-bar-left .contact a {
+  color: var(--primary);
+  text-decoration: none;
+}
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.top-bar-right select {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--card);
+  cursor: pointer;
+  outline: none;
+}
+.top-bar-right select:focus {
+  border-color: var(--primary);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--primary); color: var(--primary); }
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.btn-primary:hover { background: var(--primary-dark); color: white; }
+.btn-danger {
+  color: var(--danger);
+  border-color: #fecaca;
+}
+.btn-danger:hover { background: var(--danger-light); border-color: var(--danger); }
+
+/* ── Main Layout ── */
+.dashboard {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ── Summary Cards ── */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.summary-card .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.summary-card .value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+.summary-card .delta {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+.delta.up { color: var(--success); }
+.delta.down { color: var(--danger); }
+.delta.neutral { color: var(--text-muted); }
+
+/* ── Section Headers ── */
+.section-header {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-header .badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+
+/* ── Reporting Status Grid ── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  transition: box-shadow 0.15s;
+}
+.status-item:hover { box-shadow: var(--shadow-md); }
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.green { background: var(--success); box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+.status-dot.yellow { background: var(--warning); box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+.status-dot.red { background: var(--danger); box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+.status-info { flex: 1; min-width: 0; }
+.status-church {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status-pastor {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.status-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+.status-stats .att {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.status-stats .meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── Chart Row ── */
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.chart-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+/* ── Compliance Table ── */
+.compliance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.compliance-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.compliance-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f2f4f7;
+  vertical-align: middle;
+}
+.compliance-table tr:last-child td { border-bottom: none; }
+.compliance-table tr:hover td { background: #fafbfc; }
+.icon-check { color: var(--success); font-weight: 700; }
+.icon-x { color: var(--danger); font-weight: 700; }
+.icon-q { color: var(--warning); font-weight: 700; }
+
+/* ── Detail Section ── */
+.detail-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.detail-controls select {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--card);
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+  max-width: 360px;
+}
+.detail-controls select:focus { border-color: var(--primary); }
+
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.detail-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.detail-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f2f4f7;
+}
+.detail-table tr:last-child td { border-bottom: none; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 32px 24px 48px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.footer a { color: var(--primary); text-decoration: none; }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+.empty-state p { font-size: 14px; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--text);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Print ── */
+@media print {
+  .top-bar { position: static; box-shadow: none; }
+  .top-bar-right { display: none !important; }
+  .btn { display: none !important; }
+  .dashboard { padding: 0; }
+  .card, .chart-card, .summary-card { box-shadow: none; break-inside: avoid; }
+  body { background: white; }
+  .footer { page-break-before: always; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .summary-row { grid-template-columns: repeat(2, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+  .top-bar-inner { flex-direction: column; }
+  .top-bar-right { width: 100%; justify-content: flex-start; }
+}
+@media (max-width: 600px) {
+  .summary-row { grid-template-columns: 1fr; }
+  .status-grid { grid-template-columns: 1fr; }
+  .dashboard { padding: 12px; }
+  .top-bar { padding: 14px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ TOP BAR ════════ -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <h1>DA Churches Dashboard</h1>
+      <div class="subtitle">Metro East Section &mdash; North Texas District Council of the Assemblies of God</div>
+      <div class="contact">Presbyter: Lane Hastie &middot; <a href="tel:9729626574">972-962-6574</a> &middot; <a href="mailto:lhastiefirstag@yahoo.com">lhastiefirstag@yahoo.com</a></div>
+    </div>
+    <div class="top-bar-right">
+      <select id="monthFilter" onchange="renderDashboard()"></select>
+      <button class="btn btn-primary" onclick="loadDemoData()">Load Demo Data</button>
+      <button class="btn" onclick="exportAllCSV()">Export All (CSV)</button>
+      <button class="btn btn-danger" onclick="clearAllData()">Clear Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ DASHBOARD ════════ -->
+<div class="dashboard" id="dashboardContainer">
+  <div class="empty-state" id="emptyState">
+    <div class="icon">&#128202;</div>
+    <p style="font-size:18px;font-weight:600;margin-bottom:8px;">No report data yet</p>
+    <p>Click <strong>Load Demo Data</strong> above to populate the dashboard with sample churches, or have pastors submit reports using the Monthly Report form.</p>
+  </div>
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<div class="footer">
+  Data from DA Church Monthly Reports &middot; Metro East Section &middot; North Texas District<br>
+  Questions? Contact Lane Hastie at <a href="mailto:lhastiefirstag@yahoo.com">lhastiefirstag@yahoo.com</a>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════
+//  DATA LAYER — matches DA_Monthly_Report.html
+// ════════════════════════════════════════════════
+var STORAGE_KEY = 'da_monthly_reports';
+
+function getAllData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+
+function setAllData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════
+function padTwo(n) {
+  return n < 10 ? '0' + n : '' + n;
+}
+
+function makeYM(year, month) {
+  return year + '-' + padTwo(month);
+}
+
+function entryYM(entry) {
+  var d = new Date(entry.timestamp);
+  return makeYM(d.getFullYear(), d.getMonth() + 1);
+}
+
+// ════════════════════════════════════════════════
+//  MONTH FILTER
+// ════════════════════════════════════════════════
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function populateMonthFilter() {
+  var sel = document.getElementById('monthFilter');
+  sel.innerHTML = '';
+  var now = new Date();
+  var allData = getAllData();
+  var monthObj = {};
+  monthObj[makeYM(now.getFullYear(), now.getMonth() + 1)] = true;
+  var churchKeys = Object.keys(allData);
+  for (var ci = 0; ci < churchKeys.length; ci++) {
+    var churchEntries = allData[churchKeys[ci]];
+    for (var ei = 0; ei < churchEntries.length; ei++) {
+      monthObj[entryYM(churchEntries[ei])] = true;
+    }
+  }
+  var sorted = Object.keys(monthObj).sort().reverse();
+  for (var si = 0; si < sorted.length; si++) {
+    var ym = sorted[si];
+    var parts = ym.split('-');
+    var opt = document.createElement('option');
+    opt.value = ym;
+    opt.textContent = MONTHS[parseInt(parts[1]) - 1] + ' ' + parts[0];
+    sel.appendChild(opt);
+  }
+  var allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'All Time';
+  sel.appendChild(allOpt);
+}
+
+function getSelectedMonth() {
+  return document.getElementById('monthFilter').value;
+}
+
+function entryMatchesMonth(entry, ym) {
+  if (ym === 'all') return true;
+  return entryYM(entry) === ym;
+}
+
+function getPreviousMonth(ym) {
+  if (ym === 'all') return null;
+  var parts = ym.split('-');
+  var y = parseInt(parts[0]);
+  var m = parseInt(parts[1]);
+  if (m === 1) return (y - 1) + '-12';
+  return y + '-' + padTwo(m - 1);
+}
+
+// ════════════════════════════════════════════════
+//  RENDER DASHBOARD
+// ════════════════════════════════════════════════
+var attendTrendChart = null;
+var salvBaptChart = null;
+var comparisonChart = null;
+var detailLineChart = null;
+
+function renderDashboard() {
+  var allData = getAllData();
+  var churches = Object.keys(allData);
+  var container = document.getElementById('dashboardContainer');
+  var emptyEl = document.getElementById('emptyState');
+
+  if (churches.length === 0) {
+    emptyEl.style.display = '';
+    container.innerHTML = '';
+    container.appendChild(emptyEl);
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  var ym = getSelectedMonth();
+  var prevYm = getPreviousMonth(ym);
+
+  // Gather current month and previous month data per church
+  var churchStats = [];
+  for (var ni = 0; ni < churches.length; ni++) {
+    var cName = churches[ni];
+    var cEntries = allData[cName];
+    var current = cEntries.filter(function(e) { return entryMatchesMonth(e, ym); });
+    var prev = prevYm ? cEntries.filter(function(e) { return entryMatchesMonth(e, prevYm); }) : [];
+    var latest = current.length ? current[current.length - 1] : null;
+    var prevLatest = prev.length ? prev[prev.length - 1] : null;
+    var lastEntry = cEntries[cEntries.length - 1];
+    churchStats.push({ name: cName, entries: cEntries, current: current, prev: prev, latest: latest, prevLatest: prevLatest, lastEntry: lastEntry });
+  }
+
+  // Summary computations
+  var reportingCount = churchStats.filter(function(c) { return c.current.length > 0; }).length;
+  var prevReportingCount = churchStats.filter(function(c) { return c.prev.length > 0; }).length;
+
+  var totalAttCurrent = 0, totalAttPrev = 0;
+  var totalSalvCurrent = 0, totalSalvYTD = 0;
+  var totalWaterCurrent = 0, totalSpiritCurrent = 0;
+  var currentYear = new Date().getFullYear();
+
+  churchStats.forEach(function(c) {
+    if (c.latest) {
+      totalAttCurrent += (c.latest.attendAdults || 0) + (c.latest.attendMinors || 0);
+      totalSalvCurrent += (c.latest.salvations || 0);
+      totalWaterCurrent += (c.latest.waterBaptisms || 0);
+      totalSpiritCurrent += (c.latest.spiritBaptisms || 0);
+    }
+    if (c.prevLatest) {
+      totalAttPrev += (c.prevLatest.attendAdults || 0) + (c.prevLatest.attendMinors || 0);
+    }
+    c.entries.filter(function(e) { return new Date(e.timestamp).getFullYear() === currentYear; }).forEach(function(e) {
+      totalSalvYTD += (e.salvations || 0);
+    });
+  });
+
+  var attDelta = totalAttCurrent - totalAttPrev;
+  var reportDelta = reportingCount - prevReportingCount;
+
+  // Build month label mapping for charts (last 6 months)
+  var allMonthsObj = {};
+  churches.forEach(function(ch) {
+    allData[ch].forEach(function(e) {
+      allMonthsObj[entryYM(e)] = true;
+    });
+  });
+  var sortedMonths = Object.keys(allMonthsObj).sort().slice(-6);
+  var monthLabels = sortedMonths.map(function(m) {
+    var p = m.split('-');
+    return MONTHS[parseInt(p[1]) - 1].slice(0, 3) + ' ' + p[0].slice(2);
+  });
+
+  // Attendance trend data (total section)
+  var attTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      var match = allData[ch].filter(function(e) { return entryYM(e) === m; });
+      if (match.length) {
+        var last = match[match.length - 1];
+        total += (last.attendAdults || 0) + (last.attendMinors || 0);
+      }
+    });
+    return total;
+  });
+
+  // Salvations + baptisms trend
+  var salvTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      allData[ch].filter(function(e) { return entryYM(e) === m; }).forEach(function(e) {
+        total += (e.salvations || 0);
+      });
+    });
+    return total;
+  });
+  var baptTrendData = sortedMonths.map(function(m) {
+    var total = 0;
+    churches.forEach(function(ch) {
+      allData[ch].filter(function(e) { return entryYM(e) === m; }).forEach(function(e) {
+        total += (e.waterBaptisms || 0) + (e.spiritBaptisms || 0);
+      });
+    });
+    return total;
+  });
+
+  // Comparison data (sorted by current attendance)
+  var compData = churchStats.map(function(c) {
+    return {
+      name: c.name,
+      adults: c.latest ? (c.latest.attendAdults || 0) : 0,
+      minors: c.latest ? (c.latest.attendMinors || 0) : 0,
+      total: c.latest ? (c.latest.attendAdults || 0) + (c.latest.attendMinors || 0) : 0
+    };
+  }).sort(function(a, b) { return b.total - a.total; });
+
+  // Reporting status (sorted: missing first, then alphabetical)
+  var statusItems = churchStats.map(function(c) {
+    var status = 'red';
+    var statusLabel = 'No reports';
+    if (c.current.length > 0) {
+      status = 'green';
+      statusLabel = 'Reported';
+    } else if (c.prev.length > 0) {
+      status = 'yellow';
+      statusLabel = 'Last month only';
+    }
+    var lastDate = c.lastEntry ? new Date(c.lastEntry.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }) : 'Never';
+    var lastAtt = c.lastEntry ? (c.lastEntry.attendAdults || 0) + (c.lastEntry.attendMinors || 0) : 0;
+    var lastSalv = c.lastEntry ? (c.lastEntry.salvations || 0) : 0;
+    var pastorName = c.lastEntry ? ((c.lastEntry.pastorFirst || '') + ' ' + (c.lastEntry.pastorLast || '')).trim() : 'Unknown';
+    // Copy all properties from c plus new ones
+    var result = {};
+    for (var k in c) { if (c.hasOwnProperty(k)) result[k] = c[k]; }
+    result.status = status;
+    result.statusLabel = statusLabel;
+    result.lastDate = lastDate;
+    result.lastAtt = lastAtt;
+    result.lastSalv = lastSalv;
+    result.pastorName = pastorName;
+    return result;
+  }).sort(function(a, b) {
+    var order = { red: 0, yellow: 1, green: 2 };
+    if (order[a.status] !== order[b.status]) return order[a.status] - order[b.status];
+    return a.name.localeCompare(b.name);
+  });
+
+  // Compliance data
+  var complianceRows = churchStats.map(function(c) {
+    var last = c.lastEntry;
+    return {
+      name: c.name,
+      ministrySafe: last ? (last.ministrySafe || '') : '',
+      aplos: last ? (last.aplos || '') : '',
+      insurance: last ? (Array.isArray(last.insurance) ? last.insurance : []) : [],
+      lastDate: last ? new Date(last.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }) : 'Never'
+    };
+  });
+
+  function complianceIcon(val, yesVal) {
+    if (!val) return '<span class="icon-q" title="Unknown">?</span>';
+    if (val === yesVal) return '<span class="icon-check" title="Yes">&#10003;</span>';
+    if (val === 'No') return '<span class="icon-x" title="No">&#10007;</span>';
+    return '<span class="icon-q" title="' + val + '">?</span>';
+  }
+  function insuranceIcon(arr) {
+    if (!arr.length) return '<span class="icon-q" title="Unknown">?</span>';
+    if (arr.indexOf('None') >= 0) return '<span class="icon-check" title="No issues">&#10003;</span>';
+    return '<span class="icon-x" title="' + arr.join(', ') + '">&#10007;</span>';
+  }
+
+  // Church selector for detail
+  var detailOptions = churches.sort().map(function(n) {
+    return '<option value="' + n.replace(/"/g, '&quot;') + '">' + esc(n) + '</option>';
+  }).join('');
+
+  // Build status items HTML
+  var statusHtml = statusItems.map(function(s) {
+    return '<div class="status-item">'
+      + '<div class="status-dot ' + s.status + '" title="' + s.statusLabel + '"></div>'
+      + '<div class="status-info">'
+      + '<div class="status-church">' + esc(s.name) + '</div>'
+      + '<div class="status-pastor">' + esc(s.pastorName) + ' &middot; Last: ' + s.lastDate + '</div>'
+      + '</div>'
+      + '<div class="status-stats">'
+      + '<div class="att">' + s.lastAtt + '</div>'
+      + '<div class="meta">' + s.lastSalv + ' saved</div>'
+      + '</div></div>';
+  }).join('');
+
+  // Build compliance rows HTML
+  var complianceHtml = complianceRows.map(function(r) {
+    return '<tr>'
+      + '<td style="font-weight:600;">' + esc(r.name) + '</td>'
+      + '<td style="text-align:center;">' + complianceIcon(r.ministrySafe, 'Yes') + '</td>'
+      + '<td style="text-align:center;">' + complianceIcon(r.aplos, 'Yes') + '</td>'
+      + '<td style="text-align:center;">' + insuranceIcon(r.insurance) + '</td>'
+      + '<td>' + r.lastDate + '</td></tr>';
+  }).join('');
+
+  // Delta class helpers
+  var reportDeltaClass = reportDelta > 0 ? 'up' : reportDelta < 0 ? 'down' : 'neutral';
+  var attDeltaClass = attDelta > 0 ? 'up' : attDelta < 0 ? 'down' : 'neutral';
+  var attDeltaPrefix = attDelta > 0 ? '&#9650; +' : attDelta < 0 ? '&#9660; ' : '';
+  var reportDeltaPrefix = reportDelta > 0 ? '+' : '';
+
+  var monthFilterLabel = ym === 'all' ? 'All Time' : document.getElementById('monthFilter').selectedOptions[0].textContent;
+
+  container.innerHTML = ''
+    + '<!-- Row 1: Summary Cards -->'
+    + '<div class="summary-row">'
+    + '<div class="summary-card">'
+    + '<div class="label">Churches Reporting</div>'
+    + '<div class="value">' + reportingCount + ' <span style="font-size:16px;font-weight:500;color:var(--text-muted)">/ ' + churches.length + '</span></div>'
+    + '<div class="delta ' + reportDeltaClass + '">' + reportDeltaPrefix + reportDelta + ' vs last month</div>'
+    + '</div>'
+    + '<div class="summary-card">'
+    + '<div class="label">Combined Attendance</div>'
+    + '<div class="value">' + totalAttCurrent.toLocaleString() + '</div>'
+    + '<div class="delta ' + attDeltaClass + '">' + attDeltaPrefix + attDelta.toLocaleString() + ' from last month</div>'
+    + '</div>'
+    + '<div class="summary-card">'
+    + '<div class="label">Salvations</div>'
+    + '<div class="value">' + totalSalvCurrent + '</div>'
+    + '<div class="delta neutral">' + totalSalvYTD + ' YTD (' + currentYear + ')</div>'
+    + '</div>'
+    + '<div class="summary-card">'
+    + '<div class="label">Total Baptisms</div>'
+    + '<div class="value">' + (totalWaterCurrent + totalSpiritCurrent) + '</div>'
+    + '<div class="delta neutral">' + totalWaterCurrent + ' water + ' + totalSpiritCurrent + ' spirit</div>'
+    + '</div></div>'
+    + '<!-- Row 2: Reporting Status -->'
+    + '<div class="section-header">Reporting Status <span class="badge">' + monthFilterLabel + '</span></div>'
+    + '<div class="card"><div class="status-grid">' + statusHtml + '</div></div>'
+    + '<!-- Row 3: Charts -->'
+    + '<div class="chart-row">'
+    + '<div class="chart-card"><div class="chart-title">Attendance Trend (Section Total)</div><canvas id="attendTrendCanvas" height="260"></canvas></div>'
+    + '<div class="chart-card"><div class="chart-title">Salvations &amp; Baptisms</div><canvas id="salvBaptCanvas" height="260"></canvas></div>'
+    + '</div>'
+    + '<!-- Row 4: Church Comparison -->'
+    + '<div class="section-header">Church Comparison</div>'
+    + '<div class="card"><canvas id="comparisonCanvas" height="' + Math.max(200, compData.length * 40) + '"></canvas></div>'
+    + '<!-- Row 5: Compliance Overview -->'
+    + '<div class="section-header">Compliance Overview</div>'
+    + '<div class="card" style="overflow-x:auto;">'
+    + '<table class="compliance-table"><thead><tr>'
+    + '<th>Church</th><th>Ministry Safe</th><th>Aplos</th><th>Insurance</th><th>Last Reported</th>'
+    + '</tr></thead><tbody>' + complianceHtml + '</tbody></table></div>'
+    + '<!-- Row 6: Individual Church Detail -->'
+    + '<div class="section-header">Individual Church Detail</div>'
+    + '<div class="card"><div class="detail-controls">'
+    + '<select id="detailChurchSelect" onchange="renderDetail()">'
+    + '<option value="">-- Select a church --</option>' + detailOptions
+    + '</select></div><div id="detailContent"></div></div>';
+
+  // Build Charts
+  buildAttendanceTrendChart(monthLabels, attTrendData);
+  buildSalvBaptChart(monthLabels, salvTrendData, baptTrendData);
+  buildComparisonChart(compData);
+}
+
+function buildAttendanceTrendChart(labels, data) {
+  if (attendTrendChart) attendTrendChart.destroy();
+  var ctx = document.getElementById('attendTrendCanvas');
+  if (!ctx) return;
+  attendTrendChart = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Total Attendance',
+        data: data,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        fill: true,
+        tension: 0.35,
+        pointRadius: 5,
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' total attendance'; } } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '500' }, color: '#8d96a8' } },
+        y: { grid: { color: '#f2f4f7' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8d96a8' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildSalvBaptChart(labels, salvData, baptData) {
+  if (salvBaptChart) salvBaptChart.destroy();
+  var ctx = document.getElementById('salvBaptCanvas');
+  if (!ctx) return;
+  salvBaptChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Salvations',
+          data: salvData,
+          backgroundColor: 'rgba(59,130,246,0.75)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        },
+        {
+          label: 'Baptisms',
+          data: baptData,
+          backgroundColor: 'rgba(34,197,94,0.75)',
+          borderRadius: 5,
+          barPercentage: 0.55
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter' }, usePointStyle: true, pointStyleWidth: 10, padding: 20 } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '500' }, color: '#8d96a8' } },
+        y: { stacked: true, grid: { color: '#f2f4f7' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8d96a8', stepSize: 5 }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildComparisonChart(data) {
+  if (comparisonChart) comparisonChart.destroy();
+  var ctx = document.getElementById('comparisonCanvas');
+  if (!ctx) return;
+  comparisonChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: data.map(function(d) { return d.name; }),
+      datasets: [
+        {
+          label: 'Adults',
+          data: data.map(function(d) { return d.adults; }),
+          backgroundColor: 'rgba(59,130,246,0.8)',
+          borderRadius: 4,
+          barPercentage: 0.6
+        },
+        {
+          label: 'Under 18',
+          data: data.map(function(d) { return d.minors; }),
+          backgroundColor: 'rgba(139,92,246,0.65)',
+          borderRadius: 4,
+          barPercentage: 0.6
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter' }, usePointStyle: true, pointStyleWidth: 10, padding: 20 } },
+        tooltip: {
+          callbacks: {
+            afterBody: function(items) {
+              var idx = items[0].dataIndex;
+              return 'Total: ' + data[idx].total;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: '#f2f4f7' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8d96a8' }, beginAtZero: true },
+        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12, family: 'Inter', weight: '600' }, color: '#1a1f2e' } }
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════════════
+//  INDIVIDUAL CHURCH DETAIL
+// ════════════════════════════════════════════════
+function renderDetail() {
+  var sel = document.getElementById('detailChurchSelect');
+  var container = document.getElementById('detailContent');
+  var name = sel.value;
+  if (!name) { container.innerHTML = ''; return; }
+
+  var allData = getAllData();
+  var entries = allData[name] || [];
+  if (!entries.length) {
+    container.innerHTML = '<p style="color:var(--text-muted);padding:20px 0;">No reports for this church.</p>';
+    return;
+  }
+
+  var chronoEntries = entries.slice();
+  var labels = chronoEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    return d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+  });
+
+  // Build detail table rows
+  var reversedEntries = entries.slice().reverse();
+  var detailRowsHtml = reversedEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    var dateStr = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    var total = (e.attendAdults || 0) + (e.attendMinors || 0);
+    return '<tr>'
+      + '<td>' + dateStr + '</td>'
+      + '<td>' + (e.attendAdults || 0) + '</td>'
+      + '<td>' + (e.attendMinors || 0) + '</td>'
+      + '<td>' + (e.attendMidweek || 0) + '</td>'
+      + '<td><strong>' + total + '</strong></td>'
+      + '<td>' + (e.salvations || 0) + '</td>'
+      + '<td>' + (e.waterBaptisms || 0) + '</td>'
+      + '<td>' + (e.spiritBaptisms || 0) + '</td>'
+      + '<td>' + (e.communionCount || 0) + '</td>'
+      + '</tr>';
+  }).join('');
+
+  // Build compliance history rows
+  var compHistHtml = reversedEntries.map(function(e) {
+    var d = new Date(e.timestamp);
+    var dateStr = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    var ins = Array.isArray(e.insurance) ? e.insurance.join(', ') : (e.insurance || '');
+    return '<tr><td>' + dateStr + '</td><td>' + (e.ministrySafe || '--') + '</td><td>' + (e.aplos || '--') + '</td><td>' + (ins || '--') + '</td></tr>';
+  }).join('');
+
+  container.innerHTML = ''
+    + '<div style="overflow-x:auto;">'
+    + '<table class="detail-table"><thead><tr>'
+    + '<th>Date</th><th>Adults</th><th>Under 18</th><th>Midweek</th><th>Total</th>'
+    + '<th>Salvations</th><th>Water Bapt.</th><th>Spirit Bapt.</th><th>Communion</th>'
+    + '</tr></thead><tbody>' + detailRowsHtml + '</tbody></table></div>'
+    + '<div style="margin-top:20px;">'
+    + '<div class="chart-title">Attendance Trend &mdash; ' + esc(name) + '</div>'
+    + '<canvas id="detailLineCanvas" height="200"></canvas></div>'
+    + '<div style="margin-top:20px;overflow-x:auto;">'
+    + '<div class="chart-title">Compliance History</div>'
+    + '<table class="detail-table"><thead><tr><th>Date</th><th>Ministry Safe</th><th>Aplos</th><th>Insurance</th></tr></thead>'
+    + '<tbody>' + compHistHtml + '</tbody></table></div>';
+
+  // Detail line chart
+  if (detailLineChart) detailLineChart.destroy();
+  var ctx = document.getElementById('detailLineCanvas');
+  if (!ctx) return;
+  detailLineChart = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Adults',
+          data: chronoEntries.map(function(e) { return e.attendAdults || 0; }),
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,0.06)',
+          fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#3b82f6', borderWidth: 2
+        },
+        {
+          label: 'Under 18',
+          data: chronoEntries.map(function(e) { return e.attendMinors || 0; }),
+          borderColor: '#22c55e',
+          backgroundColor: 'rgba(34,197,94,0.06)',
+          fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#22c55e', borderWidth: 2
+        },
+        {
+          label: 'Midweek',
+          data: chronoEntries.map(function(e) { return e.attendMidweek || 0; }),
+          borderColor: '#f59e0b',
+          backgroundColor: 'transparent',
+          borderDash: [5, 4], tension: 0.3, pointRadius: 3, pointBackgroundColor: '#f59e0b', borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyleWidth: 8, padding: 16 } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8d96a8' } },
+        y: { grid: { color: '#f2f4f7' }, ticks: { font: { size: 11, family: 'Inter' }, color: '#8d96a8' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════════════
+//  DEMO DATA
+// ════════════════════════════════════════════════
+function loadDemoData() {
+  var now = new Date();
+  var demoChurches = [
+    {
+      name: 'New Life AG',
+      city: 'Mesquite',
+      pastor: { first: 'David', last: 'Miller', email: 'dmiller@newlifeag.org', phone: '(972) 555-0101' },
+      months: [
+        { att: [85, 25], mid: 35, salv: 3, wb: 1, sb: 0, comm: 4 },
+        { att: [95, 30], mid: 40, salv: 5, wb: 2, sb: 1, comm: 4 },
+        { att: [90, 28], mid: 38, salv: 2, wb: 0, sb: 0, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Grace Community Church',
+      city: 'Balch Springs',
+      pastor: { first: 'Maria', last: 'Santos', email: 'msantos@gracecommunity.org', phone: '(214) 555-0202' },
+      months: [
+        { att: [45, 15], mid: 18, salv: 1, wb: 0, sb: 0, comm: 4 },
+        { att: [42, 12], mid: 16, salv: 0, wb: 0, sb: 0, comm: 4 },
+        { att: [50, 18], mid: 22, salv: 2, wb: 1, sb: 0, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'No', ins: ['None']
+    },
+    {
+      name: 'Crosspoint Fellowship',
+      city: 'Sunnyvale',
+      pastor: { first: 'James', last: 'Wright', email: 'jwright@crosspointfellowship.org', phone: '(469) 555-0303' },
+      months: [
+        { att: [120, 40], mid: 55, salv: 8, wb: 3, sb: 2, comm: 4 },
+        { att: [125, 45], mid: 60, salv: 6, wb: 2, sb: 1, comm: 4 },
+        { att: [130, 42], mid: 58, salv: 10, wb: 4, sb: 3, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Faith Assembly',
+      city: 'Seagoville',
+      pastor: { first: 'Robert', last: 'Chen', email: 'rchen@faithassembly.org', phone: '(972) 555-0404' },
+      months: [
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
+        { att: [28, 10], mid: 10, salv: 1, wb: 0, sb: 0, comm: 3 },
+        { att: [25, 7], mid: 9, salv: 0, wb: 0, sb: 0, comm: 2 }
+      ],
+      ms: 'No', aplos: "Don't know", ins: ['Payment Difficulty']
+    },
+    {
+      name: 'Living Water Church',
+      city: 'Forney',
+      pastor: { first: 'Sarah', last: 'Johnson', email: 'sjohnson@livingwater.church', phone: '(469) 555-0505' },
+      months: [
+        { att: [200, 65], mid: 95, salv: 12, wb: 5, sb: 4, comm: 4 },
+        { att: [210, 70], mid: 100, salv: 15, wb: 6, sb: 3, comm: 5 },
+        { att: [195, 60], mid: 88, salv: 8, wb: 3, sb: 2, comm: 4 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Primera Iglesia AG',
+      city: 'Mesquite',
+      pastor: { first: 'Carlos', last: 'Reyes', email: 'creyes@primeraiglesiaag.org', phone: '(214) 555-0606' },
+      months: [
+        { att: [70, 30], mid: 32, salv: 4, wb: 2, sb: 1, comm: 4 },
+        { att: [75, 35], mid: 38, salv: 3, wb: 1, sb: 0, comm: 4 },
+        { att: [72, 32], mid: 35, salv: 5, wb: 2, sb: 1, comm: 5 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    },
+    {
+      name: 'Hope Chapel',
+      city: 'Kaufman',
+      pastor: { first: 'Tim', last: 'Anderson', email: 'tanderson@hopechapel.org', phone: '(972) 555-0707' },
+      months: [
+        { att: [35, 10], mid: 15, salv: 1, wb: 0, sb: 0, comm: 3 },
+        { att: [30, 8], mid: 12, salv: 0, wb: 0, sb: 0, comm: 2 },
+        { att: [32, 12], mid: 14, salv: 1, wb: 1, sb: 0, comm: 3 }
+      ],
+      ms: "Don't know", aplos: 'No', ins: ['Outstanding Bill']
+    },
+    {
+      name: 'Restoration Church',
+      city: 'Terrell',
+      pastor: { first: 'Anthony', last: 'Brooks', email: 'abrooks@restorationchurch.org', phone: '(469) 555-0808' },
+      months: [
+        { att: [55, 20], mid: 25, salv: 2, wb: 1, sb: 0, comm: 4 },
+        { att: [60, 22], mid: 28, salv: 3, wb: 1, sb: 1, comm: 4 },
+        { att: [58, 18], mid: 24, salv: 2, wb: 0, sb: 0, comm: 4 }
+      ],
+      ms: 'Yes', aplos: 'Yes', ins: ['None']
+    }
+  ];
+
+  var data = {};
+
+  demoChurches.forEach(function(church) {
+    data[church.name] = church.months.map(function(m, i) {
+      var monthsAgo = church.months.length - i;
+      var d = new Date(now.getFullYear(), now.getMonth() - monthsAgo, 15, 10, 0, 0);
+      return {
+        timestamp: d.toISOString(),
+        churchName: church.name,
+        churchAddress: '',
+        churchPhone: '',
+        pastorFirst: church.pastor.first,
+        pastorLast: church.pastor.last,
+        pastorEmail: church.pastor.email,
+        pastorPhone: church.pastor.phone,
+        fillerName: '',
+        fillerEmail: '',
+        attendAdults: m.att[0],
+        attendMinors: m.att[1],
+        attendMidweek: m.mid,
+        salvations: m.salv,
+        waterBaptisms: m.wb,
+        spiritBaptisms: m.sb,
+        communionCount: m.comm,
+        specialEvents: '',
+        missionsPromo: '',
+        ministrySafe: church.ms,
+        aplos: church.aplos,
+        insurance: church.ins,
+        insuranceOther: '',
+        sectionConnection: 'Yes',
+        presbyCall: 'No',
+        comments: ''
+      };
+    });
+  });
+
+  setAllData(data);
+  populateMonthFilter();
+  renderDashboard();
+  showToast('Demo data loaded \u2014 8 churches, 3 months each');
+}
+
+// ════════════════════════════════════════════════
+//  EXPORT ALL CSV
+// ════════════════════════════════════════════════
+function exportAllCSV() {
+  var allData = getAllData();
+  var churches = Object.keys(allData);
+  if (!churches.length) { showToast('No data to export'); return; }
+
+  var headers = ['Date','Church','Pastor','Adults','Under 18','Total','Midweek','Salvations','Water Baptisms','Spirit Baptisms','Communion','Ministry Safe','Aplos','Insurance','Comments'];
+  var rows = [];
+  churches.sort().forEach(function(ch) {
+    allData[ch].forEach(function(e) {
+      var total = (e.attendAdults || 0) + (e.attendMinors || 0);
+      rows.push([
+        new Date(e.timestamp).toLocaleDateString('en-US'),
+        '"' + (e.churchName || '').replace(/"/g, '""') + '"',
+        '"' + (e.pastorFirst || '') + ' ' + (e.pastorLast || '') + '"',
+        e.attendAdults || 0,
+        e.attendMinors || 0,
+        total,
+        e.attendMidweek || 0,
+        e.salvations || 0,
+        e.waterBaptisms || 0,
+        e.spiritBaptisms || 0,
+        e.communionCount || 0,
+        '"' + (e.ministrySafe || '') + '"',
+        '"' + (e.aplos || '') + '"',
+        '"' + (Array.isArray(e.insurance) ? e.insurance.join('; ') : '') + '"',
+        '"' + (e.comments || '').replace(/"/g, '""') + '"'
+      ]);
+    });
+  });
+
+  var csvParts = [headers.join(',')];
+  for (var ri = 0; ri < rows.length; ri++) {
+    csvParts.push(rows[ri].join(','));
+  }
+  var csv = csvParts.join('\n');
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'DA_Metro_East_All_Reports.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('CSV exported');
+}
+
+// ════════════════════════════════════════════════
+//  CLEAR DATA
+// ════════════════════════════════════════════════
+function clearAllData() {
+  if (!confirm('Clear ALL report data from this browser? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  populateMonthFilter();
+  renderDashboard();
+  showToast('All data cleared');
+}
+
+// ════════════════════════════════════════════════
+//  UTILITIES
+// ════════════════════════════════════════════════
+function esc(str) {
+  var el = document.createElement('span');
+  el.textContent = str || '';
+  return el.innerHTML;
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(function() { t.classList.remove('visible'); }, 2500);
+}
+
+// ════════════════════════════════════════════════
+//  AUTO-REFRESH (detect localStorage changes)
+// ════════════════════════════════════════════════
+window.addEventListener('storage', function(e) {
+  if (e.key === STORAGE_KEY) {
+    populateMonthFilter();
+    renderDashboard();
+  }
+});
+
+// Also poll every 30s for same-tab changes
+setInterval(function() {
+  var current = localStorage.getItem(STORAGE_KEY);
+  if (current !== window._lastDataSnapshot) {
+    window._lastDataSnapshot = current;
+    populateMonthFilter();
+    renderDashboard();
+  }
+}, 30000);
+
+// ════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  window._lastDataSnapshot = localStorage.getItem(STORAGE_KEY);
+  populateMonthFilter();
+  renderDashboard();
+});
+</script>
+</body>
+</html>
