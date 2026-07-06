@@ -2824,12 +2824,14 @@ function admin_renderDashboard() {
   var emptyEl = document.getElementById('adminEmptyState');
 
   if (churches.length === 0) {
-    emptyEl.style.display = '';
-    container.innerHTML = '';
-    container.appendChild(emptyEl);
+    container.innerHTML = '<div class="admin-empty-state" id="adminEmptyState">'
+      + '<div class="icon">&#128202;</div>'
+      + '<p style="font-size:18px;font-weight:800;margin-bottom:8px;">No report data yet</p>'
+      + '<p>Click <strong>Load Demo Data</strong> above to populate the dashboard with sample churches, or have pastors submit reports using the Monthly Report form.</p>'
+      + '</div>';
     return;
   }
-  emptyEl.style.display = 'none';
+  if (emptyEl) emptyEl.style.display = 'none';
 
   var ym = admin_getSelectedMonth();
   var prevYm = admin_getPreviousMonth(ym);
