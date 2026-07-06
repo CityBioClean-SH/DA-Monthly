@@ -70,7 +70,7 @@ body {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
-.header-inner { max-width: 800px; margin: 0 auto; }
+.header-inner { max-width: 1100px; margin: 0 auto; }
 .header-top {
   display: flex;
   align-items: center;
@@ -200,7 +200,7 @@ body {
 
 /* ── MAIN CONTAINER ── */
 .main-wrap {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 20px 24px 100px;
   position: relative;
@@ -679,7 +679,7 @@ textarea.field-input {
   transform: translateZ(0);
 }
 .nav-inner {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   gap: 10px;
@@ -1075,16 +1075,24 @@ textarea.field-input {
 
 /* ── DESKTOP ── */
 @media (min-width: 768px) {
-  .step-card { padding: 40px 48px; }
-  .step-title { font-size: 28px; }
+  .main-wrap { padding: 32px 40px 120px; }
+  .step-card { padding: 48px 56px; }
+  .step-title { font-size: 30px; }
   .step-subtitle { font-size: 15px; }
   .field-label { font-size: 14px; }
   .field-input, .field-select, .field-textarea { font-size: 16px; padding: 14px 18px; }
-  .review-grid { grid-template-columns: 1fr 1fr 1fr; }
-  .stats-grid { grid-template-columns: repeat(4, 1fr); }
-  .nav-btn { padding: 16px 32px; font-size: 16px; }
-  .bottom-nav { padding: 16px 24px; }
+  .field-group { margin-bottom: 20px; }
+  .field-row { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .review-grid { grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .nav-btn { padding: 16px 40px; font-size: 16px; }
+  .bottom-nav { padding: 16px 32px; }
   .progress-steps { gap: 6px; }
+  .header-title { font-size: 20px; }
+  .header-logo { width: 48px; height: 48px; border-radius: 14px; }
+  .header-logo svg { width: 26px; height: 26px; }
+  .tab-bar { gap: 4px; }
+  .tab-btn { padding: 10px 20px; font-size: 14px; }
 }
 
 /* Mobile adjustments */
