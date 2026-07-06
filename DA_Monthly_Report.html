@@ -1142,23 +1142,26 @@ tr.non-compliant td:first-child { color: var(--danger); }
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
+  background: rgba(0,0,0,0.7);
+  z-index: 10000;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
   overflow-y: auto;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 .church-modal-overlay.visible { display: flex; }
 .church-modal {
-  background: var(--bg-card);
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
   width: 100%;
   max-width: 1000px;
   max-height: calc(100vh - 80px);
   overflow-y: auto;
   position: relative;
+  z-index: 10001;
 }
 .church-modal-header {
   display: flex;
